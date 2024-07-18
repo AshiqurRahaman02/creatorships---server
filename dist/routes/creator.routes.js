@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const creator_controller_1 = require("../controllers/creator.controller");
+const authentication_middlewares_1 = require("../middlewares/authentication.middlewares");
+const creatorRouter = (0, express_1.Router)();
+creatorRouter.post("/create", authentication_middlewares_1.verifyToken, creator_controller_1.createCreator);
+creatorRouter.put("/update", authentication_middlewares_1.verifyToken, creator_controller_1.updateCreator);
+creatorRouter.delete("/delete", authentication_middlewares_1.verifyToken, creator_controller_1.deleteCreator);
+creatorRouter.get("/get-creator/:userId", creator_controller_1.getCreator);
+creatorRouter.get("/get-all-creators", creator_controller_1.getAllCreators);
+creatorRouter.get("/search-creators", creator_controller_1.searchCreators);
+exports.default = creatorRouter;
