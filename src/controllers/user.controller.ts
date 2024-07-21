@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import stripePackage from "stripe";
 import dotenv from "dotenv";
-import exp from "constants";
 dotenv.config();
 
 const stripe_secret_key = process.env.stripe_secret_key || null;
@@ -12,7 +11,7 @@ if (!stripe_secret_key) {
 	throw new Error("Please provide a stripe secret key");
 }
 const stripe = new stripePackage(stripe_secret_key);
-const YOUR_DOMAIN = process.env.public_domain ||  "http://localhost:3000";
+const YOUR_DOMAIN = process.env.public_domain || "http://localhost:3000";
 
 // // Extend the Request type to include the user property
 // declare global {
@@ -120,6 +119,51 @@ export const userLogin = async (req: Request, res: Response) => {
 		res.status(404).json({ isError: true, message: error.message });
 	}
 };
+
+export const updateUserLogo = async (req: Request, res: Response) => {
+	const { link } = req.body;
+	try {
+		const userId = req.user?.user_id;
+
+		if (!userId) {
+			return res.status(500).json({
+				isError: true,
+				message: "Internal Server Error",
+			});
+		}
+
+		await User.update(
+			{
+				logo: link,
+			},
+			{
+				where: { user_id: userId },
+			}
+		);
+
+		// Retrieve the updated user
+		const updatedUser = await User.findOne({
+			where: { user_id: userId },
+		});
+
+		if (!updatedUser) {
+			return res.status(404).json({
+				isError: true,
+				message: "User not found.",
+			});
+		}
+
+		// Send the response with the updated user
+		res.status(200).json({
+			isError: false,
+			message: "Logo uploaded successfully.",
+			user: updatedUser,
+		});
+	} catch (error: any) {
+		res.status(500).json({ isError: true, message: error.message });
+	}
+};
+
 // Create Checkout Session
 export const createCheckoutSession = async (req: Request, res: Response) => {
 	try {
@@ -160,63 +204,65 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
 export const updateUserSubscription = async (req: Request, res: Response) => {
 	const { session_id, plan_type } = req.body;
 	try {
-	  const userId = req.user?.user_id;
-  
-	  if (!userId) {
-		return res.status(500).json({
-		  isError: true,
-		  message: "Internal Server Error",
-		});
-	  }
-  
-	  const checkoutSession = await stripe.checkout.sessions.retrieve(session_id);
-  
-	  const stripeCustomerId = checkoutSession.customer as string;
-	  const stripeSubscriptionId = checkoutSession.subscription as string;
-	  const subscriptionStatus = checkoutSession.status as string;;
-	  const subscriptionPlan = plan_type;
-  
-	  if (!stripeSubscriptionId) {
-		return res.status(400).json({
-		  isError: true,
-		  message: "No subscription found in the session.",
-		});
-	  }
-  
-	  await User.update(
-		{
-		  stripeCustomerId,
-		  stripeSubscriptionId,
-		  subscriptionStatus,
-		  subscriptionPlan,
-		},
-		{
-		  where: { user_id: userId },
+		const userId = req.user?.user_id;
+
+		if (!userId) {
+			return res.status(500).json({
+				isError: true,
+				message: "Internal Server Error",
+			});
 		}
-	  );
-  
-	    // Retrieve the updated user
+
+		const checkoutSession = await stripe.checkout.sessions.retrieve(
+			session_id
+		);
+
+		const stripeCustomerId = checkoutSession.customer as string;
+		const stripeSubscriptionId = checkoutSession.subscription as string;
+		const subscriptionStatus = checkoutSession.status as string;
+		const subscriptionPlan = plan_type;
+
+		if (!stripeSubscriptionId) {
+			return res.status(400).json({
+				isError: true,
+				message: "No subscription found in the session.",
+			});
+		}
+
+		await User.update(
+			{
+				stripeCustomerId,
+				stripeSubscriptionId,
+				subscriptionStatus,
+				subscriptionPlan,
+			},
+			{
+				where: { user_id: userId },
+			}
+		);
+
+		// Retrieve the updated user
 		const updatedUser = await User.findOne({
 			where: { user_id: userId },
-		  });
-	  
-		  if (!updatedUser) {
+		});
+
+		if (!updatedUser) {
 			return res.status(404).json({
-			  isError: true,
-			  message: "User not found.",
+				isError: true,
+				message: "User not found.",
 			});
-		  }
-	  
-		  // Send the response with the updated user
-		  res.status(200).json({
+		}
+
+		// Send the response with the updated user
+		res.status(200).json({
 			isError: false,
 			message: "Subscription details updated successfully.",
 			user: updatedUser,
-		  });
+		});
 	} catch (error: any) {
-	  res.status(500).json({ isError: true, message: error.message });
+		res.status(500).json({ isError: true, message: error.message });
 	}
-  };
+};
 
 // Create Portal Session
 export const createPortalSession = async (req: Request, res: Response) => {

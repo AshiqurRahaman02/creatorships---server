@@ -27,10 +27,17 @@ const uploadImage = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const { image } = req.files;
         const imageResult = yield uploadImageToCloudinary(image);
-        res.status(200).json({ isError: false, imageResult });
+        res.status(200).json({
+            isError: false,
+            imageResult,
+            message: "Image uploaded",
+        });
     }
     catch (error) {
-        res.status(500).json({ error: "Error fetching the form" });
+        res.status(500).json({
+            isError: true,
+            message: "Error uploading image",
+        });
     }
 });
 exports.uploadImage = uploadImage;

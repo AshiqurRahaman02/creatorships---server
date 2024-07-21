@@ -19,11 +19,18 @@ function uploadImageToCloudinary(file: any) {
 export const uploadImage = async (req: Request, res: Response) => {
 	try {
 		const { image }: any = req.files;
+
 		const imageResult = await uploadImageToCloudinary(image);
 
-		res.status(200).json({ isError: false, imageResult });
+		res.status(200).json({
+			isError: false,
+			imageResult,
+			message: "Image uploaded",
+		});
 	} catch (error) {
-		res.status(500).json({ error: "Error fetching the form" });
+		res.status(500).json({
+			isError: true,
+			message: "Error uploading image",
+		});
 	}
 };
-

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleStripeWebhook = exports.createPortalSession = exports.updateUserSubscription = exports.createCheckoutSession = exports.userLogin = exports.userRegister = exports.getUser = void 0;
+exports.handleStripeWebhook = exports.createPortalSession = exports.updateUserSubscription = exports.createCheckoutSession = exports.updateUserLogo = exports.userLogin = exports.userRegister = exports.getUser = void 0;
 const user_model_1 = __importDefault(require("../models/user.model"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -130,6 +130,44 @@ const userLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.userLogin = userLogin;
+const updateUserLogo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const { link } = req.body;
+    try {
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
+        if (!userId) {
+            return res.status(500).json({
+                isError: true,
+                message: "Internal Server Error",
+            });
+        }
+        yield user_model_1.default.update({
+            logo: link,
+        }, {
+            where: { user_id: userId },
+        });
+        // Retrieve the updated user
+        const updatedUser = yield user_model_1.default.findOne({
+            where: { user_id: userId },
+        });
+        if (!updatedUser) {
+            return res.status(404).json({
+                isError: true,
+                message: "User not found.",
+            });
+        }
+        // Send the response with the updated user
+        res.status(200).json({
+            isError: false,
+            message: "Logo uploaded successfully.",
+            user: updatedUser,
+        });
+    }
+    catch (error) {
+        res.status(500).json({ isError: true, message: error.message });
+    }
+});
+exports.updateUserLogo = updateUserLogo;
 // Create Checkout Session
 const createCheckoutSession = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -167,10 +205,10 @@ const createCheckoutSession = (req, res) => __awaiter(void 0, void 0, void 0, fu
 });
 exports.createCheckoutSession = createCheckoutSession;
 const updateUserSubscription = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _b;
     const { session_id, plan_type } = req.body;
     try {
-        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
+        const userId = (_b = req.user) === null || _b === void 0 ? void 0 : _b.user_id;
         if (!userId) {
             return res.status(500).json({
                 isError: true,
@@ -181,7 +219,6 @@ const updateUserSubscription = (req, res) => __awaiter(void 0, void 0, void 0, f
         const stripeCustomerId = checkoutSession.customer;
         const stripeSubscriptionId = checkoutSession.subscription;
         const subscriptionStatus = checkoutSession.status;
-        ;
         const subscriptionPlan = plan_type;
         if (!stripeSubscriptionId) {
             return res.status(400).json({

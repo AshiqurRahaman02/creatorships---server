@@ -29,6 +29,7 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     try {
         const decoded = jsonwebtoken_1.default.verify(token, jwtSecretKey);
         const { userId } = decoded;
+        console.log(Date());
         // Check if the user exists
         const user = yield user_model_1.default.findByPk(userId);
         if (!user) {

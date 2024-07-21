@@ -12,27 +12,28 @@ import chatRouter from "./routes/chat.routes";
 import imageRouter from "./routes/image.routes";
 import mailRouter from "./routes/mail.route";
 import User from "./models/user.model";
+import { cloudinaryConnection } from "./config/cloudinary.config";
 require("dotenv").config();
 
 const app = express();
 
 // Middleware
-app.use(express.static('public'));
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json({ limit: "5000mb" }));
 app.use(
-    cors({
-        origin: "*",
-        credentials: true,
-    })
+	cors({
+		origin: "*",
+		credentials: true,
+	})
 );
 app.use(
-    fileupload({
-        useTempFiles: true,
-    })
+	fileupload({
+		useTempFiles: true,
+	})
 );
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({ limit: "5mb" }));
+app.use(bodyParser.json({ limit: "5000mb" }));
 
 // Routes
 app.use("/user", userRoutes);
@@ -43,18 +44,17 @@ app.use("/chat", chatRouter);
 app.use("/image", imageRouter);
 app.use("/mail", mailRouter);
 
-
-
 sequelize
-    .sync({ force: false })
-    .then(() => {
-        console.log("Database & tables synced");
-        // Start the server after syncing
-        const PORT = process.env.PORT || 5151;
-        app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
-        });
-    })
-    .catch((error: Error) => {
-        console.error("Error syncing database:", error);
-    });
+	.sync({ force: false })
+	.then(() => {
+		console.log("Database & tables synced");
+		// Start the server after syncing
+		const PORT = process.env.PORT || 5151;
+		app.listen(PORT, async () => {
+			await cloudinaryConnection;
+			console.log(`Server is running on port ${PORT}`);
+		});
+	})
+	.catch((error: Error) => {
+		console.error("Error syncing database:", error);
+	});

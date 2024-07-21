@@ -33,6 +33,8 @@ export const verifyToken = async (
 		const decoded = jwt.verify(token, jwtSecretKey) as JwtPayload;
 		const { userId } = decoded;
 
+		console.log(Date())
+
 		// Check if the user exists
 		const user = await User.findByPk(userId);
 

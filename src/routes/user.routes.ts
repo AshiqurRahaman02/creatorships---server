@@ -7,6 +7,7 @@ import {
 	createPortalSession,
 	handleStripeWebhook,
 	updateUserSubscription,
+	updateUserLogo,
 } from "../controllers/user.controller";
 import { verifyToken } from "../middlewares/authentication.middlewares";
 
@@ -16,10 +17,10 @@ const userRouter = express.Router();
 userRouter.post("/register", userRegister);
 userRouter.post("/login", userLogin);
 userRouter.get("/get-user/:id", getUser);
+userRouter.put("/update-user-logo",verifyToken, updateUserLogo);
 
-
-userRouter.post('/create-checkout-session',verifyToken, createCheckoutSession);
-userRouter.put('/update-user-session',verifyToken, updateUserSubscription);
+userRouter.post("/create-checkout-session", verifyToken, createCheckoutSession);
+userRouter.put("/update-user-session", verifyToken, updateUserSubscription);
 // userRouter.post('/create-portal-session', createPortalSession);
 // userRouter.post('/webhook', express.raw({ type: 'application/json' }), handleStripeWebhook);
 
