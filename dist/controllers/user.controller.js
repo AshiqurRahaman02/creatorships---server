@@ -205,10 +205,10 @@ const createCheckoutSession = (req, res) => __awaiter(void 0, void 0, void 0, fu
 });
 exports.createCheckoutSession = createCheckoutSession;
 const updateUserSubscription = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
+    var _a;
     const { session_id, plan_type } = req.body;
     try {
-        const userId = (_b = req.user) === null || _b === void 0 ? void 0 : _b.user_id;
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
         if (!userId) {
             return res.status(500).json({
                 isError: true,

@@ -36,23 +36,23 @@ user_model_1.default.hasOne(creator_model_1.default, { foreignKey: "user_id", as
 creator_model_1.default.belongsTo(user_model_1.default, { foreignKey: "user_id", as: "user" });
 user_model_1.default.hasOne(business_model_1.default, { foreignKey: "user_id", as: "businessInfo" });
 business_model_1.default.belongsTo(user_model_1.default, { foreignKey: "user_id", as: "user" });
-business_model_1.default.hasMany(application_model_1.default, {
-    foreignKey: "business_id",
+user_model_1.default.hasMany(application_model_1.default, {
+    foreignKey: "userId",
     as: "applications",
 });
-application_model_1.default.belongsTo(business_model_1.default, {
-    foreignKey: "business_id",
-    as: "businessInfo",
+application_model_1.default.belongsTo(user_model_1.default, {
+    foreignKey: "userId",
+    as: "user",
 });
 // This association is more complex and can be handled within your application logic
-user_model_1.default.hasMany(chat_model_1.default, { foreignKey: 'sender_id', as: 'sentChats' });
-user_model_1.default.hasMany(chat_model_1.default, { foreignKey: 'receiver_id', as: 'receivedChats' });
-chat_model_1.default.belongsTo(user_model_1.default, { foreignKey: 'sender_id', as: 'sender' });
-chat_model_1.default.belongsTo(user_model_1.default, { foreignKey: 'receiver_id', as: 'receiver' });
+user_model_1.default.hasMany(chat_model_1.default, { foreignKey: "sender_id", as: "sentChats" });
+user_model_1.default.hasMany(chat_model_1.default, { foreignKey: "receiver_id", as: "receivedChats" });
+chat_model_1.default.belongsTo(user_model_1.default, { foreignKey: "sender_id", as: "sender" });
+chat_model_1.default.belongsTo(user_model_1.default, { foreignKey: "receiver_id", as: "receiver" });
 const syncDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield sequelize.authenticate();
-        console.log('Connection has been established successfully.');
+        console.log("Connection has been established successfully.");
         // Synchronize models in order
         yield user_model_1.default.sync({ force: false }); // Force true for development, false for production
         yield creator_model_1.default.sync({ force: false });
@@ -61,7 +61,7 @@ const syncDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
         yield chat_model_1.default.sync({ force: false });
     }
     catch (error) {
-        console.error('Unable to connect to the database:', error);
+        console.error("Unable to connect to the database:", error);
     }
 });
 syncDatabase();

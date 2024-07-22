@@ -9,9 +9,9 @@ import Chat from "../models/chat.model";
 const connectionString = process.env.connectionString || "";
 
 const sequelize = new Sequelize(connectionString, {
-    dialect: "postgres",
-    protocol: "postgres",
-    logging: false,
+	dialect: "postgres",
+	protocol: "postgres",
+	logging: false,
 });
 
 // Initialize models
@@ -28,36 +28,35 @@ CreatorInfo.belongsTo(User, { foreignKey: "user_id", as: "user" });
 User.hasOne(BusinessInfo, { foreignKey: "user_id", as: "businessInfo" });
 BusinessInfo.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
-BusinessInfo.hasMany(Application, {
-    foreignKey: "business_id",
-    as: "applications",
+User.hasMany(Application, {
+	foreignKey: "userId",
+	as: "applications",
 });
-Application.belongsTo(BusinessInfo, {
-    foreignKey: "business_id",
-    as: "businessInfo",
+Application.belongsTo(User, {
+	foreignKey: "userId",
+	as: "user",
 });
 
 // This association is more complex and can be handled within your application logic
-User.hasMany(Chat, { foreignKey: 'sender_id', as: 'sentChats' });
-User.hasMany(Chat, { foreignKey: 'receiver_id', as: 'receivedChats' });
-Chat.belongsTo(User, { foreignKey: 'sender_id', as: 'sender' });
-Chat.belongsTo(User, { foreignKey: 'receiver_id', as: 'receiver' });
+User.hasMany(Chat, { foreignKey: "sender_id", as: "sentChats" });
+User.hasMany(Chat, { foreignKey: "receiver_id", as: "receivedChats" });
+Chat.belongsTo(User, { foreignKey: "sender_id", as: "sender" });
+Chat.belongsTo(User, { foreignKey: "receiver_id", as: "receiver" });
 
 const syncDatabase = async () => {
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
+	try {
+		await sequelize.authenticate();
+		console.log("Connection has been established successfully.");
 
-        // Synchronize models in order
-        await User.sync({ force: false }); // Force true for development, false for production
-        await CreatorInfo.sync({ force: false });
-        await BusinessInfo.sync({ force: false });
-        await Application.sync({ force: false });
-        await Chat.sync({ force: false });
-
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
+		// Synchronize models in order
+		await User.sync({ force: false }); // Force true for development, false for production
+		await CreatorInfo.sync({ force: false });
+		await BusinessInfo.sync({ force: false });
+		await Application.sync({ force: false });
+		await Chat.sync({ force: false });
+	} catch (error) {
+		console.error("Unable to connect to the database:", error);
+	}
 };
 
 syncDatabase();

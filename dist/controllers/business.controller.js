@@ -86,10 +86,10 @@ const createBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.createBusiness = createBusiness;
 // Update Business
 const updateBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
+    var _a;
     const { location, about, industry, total_employee, website, social } = req.body;
     try {
-        const userId = (_b = req.user) === null || _b === void 0 ? void 0 : _b.user_id;
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
         if (!userId) {
             return res.status(500).json({
                 isError: true,
@@ -160,10 +160,10 @@ const updateBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.updateBusiness = updateBusiness;
 // Delete Business
 const deleteBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
+    var _a;
     const { id } = req.params; // BusinessInfo ID
     try {
-        const userId = (_c = req.user) === null || _c === void 0 ? void 0 : _c.user_id;
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
         if (!userId) {
             return res.status(500).json({
                 isError: true,
