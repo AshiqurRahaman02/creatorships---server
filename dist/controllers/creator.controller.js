@@ -92,10 +92,10 @@ const createCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.createCreator = createCreator;
 // Update creator information
 const updateCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
+    var _a;
     const { bio, phoneNo, location, languages, website, social } = req.body;
     try {
-        const userId = (_b = req.user) === null || _b === void 0 ? void 0 : _b.user_id;
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
         if (!userId) {
             return res.status(500).json({
                 isError: true,
@@ -165,9 +165,9 @@ const updateCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.updateCreator = updateCreator;
 // Delete the creator information
 const deleteCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
+    var _a;
     try {
-        const userId = (_c = req.user) === null || _c === void 0 ? void 0 : _c.user_id;
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
         const creator = yield creator_model_1.default.findOne({ where: { user_id: userId } });
         if (!creator) {
             return res

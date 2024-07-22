@@ -12,20 +12,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.searchApplications = exports.getAllApplications = exports.getApplication = exports.deleteApplication = exports.updateApplication = exports.createApplication = void 0;
+exports.searchApplications = exports.getAllApplications = exports.getApplication = exports.getUserApplications = exports.deleteApplication = exports.updateApplication = exports.createApplication = void 0;
 const application_model_1 = __importDefault(require("../models/application.model"));
 const sequelize_1 = require("sequelize");
 const business_model_1 = __importDefault(require("../models/business.model"));
 const user_model_1 = __importDefault(require("../models/user.model"));
+const creator_model_1 = __importDefault(require("../models/creator.model"));
 // Create Application
 const createApplication = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { businessId, heading, pricing, start, experience, about, languages, benefits, no_of_openings, } = req.body;
+    var _a;
+    const { heading, pricing, endDate, experience, about, languages, benefits, no_of_openings, } = req.body;
     try {
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
+        if (!userId) {
+            return res.status(500).json({
+                isError: true,
+                message: "Internal Server Error",
+            });
+        }
+        console.log(req.body, userId);
         const newApplication = yield application_model_1.default.create({
-            businessId,
+            userId,
             heading,
             pricing,
-            start,
+            endDate,
             experience,
             about,
             languages,
@@ -45,19 +55,27 @@ const createApplication = (req, res) => __awaiter(void 0, void 0, void 0, functi
 exports.createApplication = createApplication;
 // Update Application
 const updateApplication = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const { id } = req.params;
-    const { businessId, heading, pricing, start, experience, about, languages, benefits, no_of_openings, } = req.body;
+    const { heading, pricing, endDate, experience, about, languages, benefits, no_of_openings, } = req.body;
     try {
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
+        if (!userId) {
+            return res.status(500).json({
+                isError: true,
+                message: "Internal Server Error",
+            });
+        }
         const application = yield application_model_1.default.findByPk(id);
         if (!application) {
             return res
                 .status(404)
                 .json({ isError: true, message: "Application not found" });
         }
-        application.businessId = businessId;
+        application.userId = userId;
         application.heading = heading;
         application.pricing = pricing;
-        application.start = start;
+        application.endDate = endDate;
         application.experience = experience;
         application.about = about;
         application.languages = languages;
@@ -96,6 +114,32 @@ const deleteApplication = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.deleteApplication = deleteApplication;
+// Get user applications
+const getUserApplications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
+        if (!userId) {
+            return res.status(500).json({
+                isError: true,
+                message: "Internal Server Error",
+            });
+        }
+        const applications = yield application_model_1.default.findAll({
+            where: { userId },
+        });
+        if (!applications) {
+            return res
+                .status(404)
+                .json({ isError: true, message: "Application not found" });
+        }
+        res.status(200).json({ isError: false, applications });
+    }
+    catch (error) {
+        res.status(500).json({ isError: true, message: error.message });
+    }
+});
+exports.getUserApplications = getUserApplications;
 // Get Application by ID
 const getApplication = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
@@ -104,24 +148,15 @@ const getApplication = (req, res) => __awaiter(void 0, void 0, void 0, function*
             where: { id: id },
             include: [
                 {
-                    model: business_model_1.default,
-                    as: "business",
+                    model: user_model_1.default,
+                    as: "user",
                     attributes: [
-                        "id",
                         "user_id",
-                        "about",
-                        "location",
-                        "website",
-                        "social",
-                        "industry",
-                        "total_employee",
-                    ],
-                    include: [
-                        {
-                            model: user_model_1.default,
-                            as: "user",
-                            attributes: ["user_id", "name", "verified", "logo"],
-                        },
+                        "name",
+                        "email",
+                        "type",
+                        "verified",
+                        "logo",
                     ],
                 },
             ],
@@ -131,7 +166,18 @@ const getApplication = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 .status(404)
                 .json({ isError: true, message: "Application not found" });
         }
-        res.status(200).json({ isError: false, application });
+        let details;
+        if (application.user.type === "creator") {
+            details = yield creator_model_1.default.findOne({
+                where: { user_id: application.userId },
+            });
+        }
+        else {
+            details = yield business_model_1.default.findOne({
+                where: { user_id: application.userId },
+            });
+        }
+        res.status(200).json({ isError: false, application, details });
     }
     catch (error) {
         res.status(500).json({ isError: true, message: error.message });
@@ -144,16 +190,9 @@ const getAllApplications = (req, res) => __awaiter(void 0, void 0, void 0, funct
         const applications = yield application_model_1.default.findAll({
             include: [
                 {
-                    model: business_model_1.default,
-                    as: "business",
-                    attributes: ["id", "user_id", "industry", "total_employee"],
-                    include: [
-                        {
-                            model: user_model_1.default,
-                            as: "user",
-                            attributes: ["user_id", "name", "verified", "logo"],
-                        },
-                    ],
+                    model: user_model_1.default,
+                    as: "user",
+                    attributes: ["user_id", "name", "verified", "logo"],
                 },
             ],
         });

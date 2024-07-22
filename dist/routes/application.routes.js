@@ -2,11 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const application_controller_1 = require("../controllers/application.controller");
+const authentication_middlewares_1 = require("../middlewares/authentication.middlewares");
 const applicationRouter = (0, express_1.Router)();
-applicationRouter.post("/create", application_controller_1.createApplication);
-applicationRouter.put("/update/:id", application_controller_1.updateApplication);
-applicationRouter.delete("/delete/:id", application_controller_1.deleteApplication);
-applicationRouter.get("/get-application/:userId", application_controller_1.getApplication);
+applicationRouter.post("/create", authentication_middlewares_1.verifyToken, application_controller_1.createApplication);
+applicationRouter.put("/update/:id", authentication_middlewares_1.verifyToken, application_controller_1.updateApplication);
+applicationRouter.delete("/delete/:id", authentication_middlewares_1.verifyToken, application_controller_1.deleteApplication);
+applicationRouter.get("/get-user-applications", authentication_middlewares_1.verifyToken, application_controller_1.getUserApplications);
+applicationRouter.get("/get-application/:id", application_controller_1.getApplication);
 applicationRouter.get("/get-all-application", application_controller_1.getAllApplications);
 applicationRouter.get("/search-application", application_controller_1.searchApplications);
 exports.default = applicationRouter;

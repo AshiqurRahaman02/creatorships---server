@@ -76,10 +76,10 @@ const sendChat = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.sendChat = sendChat;
 const blockChat = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
+    var _a;
     const { id } = req.params;
     try {
-        const userId = (_b = req.user) === null || _b === void 0 ? void 0 : _b.user_id;
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
         if (!userId) {
             return res.status(500).json({
                 isError: true,
@@ -123,9 +123,9 @@ const deleteChat = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.deleteChat = deleteChat;
 // Get All Chats for a User
 const getAllChats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
+    var _a;
     try {
-        const user_id = (_c = req.user) === null || _c === void 0 ? void 0 : _c.user_id;
+        const user_id = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
         if (!user_id) {
             return res.status(500).json({
                 isError: true,

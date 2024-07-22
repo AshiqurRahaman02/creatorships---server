@@ -9,7 +9,7 @@ class Application extends sequelize_1.Model {
                 primaryKey: true,
                 autoIncrement: true,
             },
-            businessId: {
+            userId: {
                 type: sequelize_1.DataTypes.INTEGER,
                 allowNull: false,
             },
@@ -18,10 +18,10 @@ class Application extends sequelize_1.Model {
                 allowNull: false,
             },
             pricing: {
-                type: sequelize_1.DataTypes.INTEGER,
+                type: sequelize_1.DataTypes.STRING,
                 allowNull: false,
             },
-            start: {
+            endDate: {
                 type: sequelize_1.DataTypes.STRING,
                 allowNull: false,
             },
@@ -38,7 +38,7 @@ class Application extends sequelize_1.Model {
                 allowNull: true,
             },
             benefits: {
-                type: sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.STRING),
+                type: sequelize_1.DataTypes.STRING,
                 allowNull: true,
             },
             no_of_openings: {
@@ -47,11 +47,11 @@ class Application extends sequelize_1.Model {
             },
         }, {
             sequelize,
-            modelName: 'Application',
+            modelName: "Application",
         });
     }
     static associate(models) {
-        this.belongsTo(models.BusinessInfo, { foreignKey: 'businessId', as: 'business' });
+        this.belongsTo(models.User, { foreignKey: "userId", as: "user" });
     }
 }
 exports.default = Application;

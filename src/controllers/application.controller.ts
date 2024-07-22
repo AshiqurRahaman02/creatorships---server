@@ -3,14 +3,14 @@ import Application from "../models/application.model";
 import { Op } from "sequelize";
 import BusinessInfo from "../models/business.model";
 import User from "../models/user.model";
+import CreatorInfo from "../models/creator.model";
 
 // Create Application
 export const createApplication = async (req: Request, res: Response) => {
 	const {
-		businessId,
 		heading,
 		pricing,
-		start,
+		endDate,
 		experience,
 		about,
 		languages,
@@ -19,11 +19,22 @@ export const createApplication = async (req: Request, res: Response) => {
 	} = req.body;
 
 	try {
+		const userId = req.user?.user_id;
+
+		if (!userId) {
+			return res.status(500).json({
+				isError: true,
+				message: "Internal Server Error",
+			});
+		}
+
+		console.log(req.body, userId);
+
 		const newApplication = await Application.create({
-			businessId,
+			userId,
 			heading,
 			pricing,
-			start,
+			endDate,
 			experience,
 			about,
 			languages,
@@ -45,10 +56,9 @@ export const createApplication = async (req: Request, res: Response) => {
 export const updateApplication = async (req: Request, res: Response) => {
 	const { id } = req.params;
 	const {
-		businessId,
 		heading,
 		pricing,
-		start,
+		endDate,
 		experience,
 		about,
 		languages,
@@ -57,6 +67,15 @@ export const updateApplication = async (req: Request, res: Response) => {
 	} = req.body;
 
 	try {
+		const userId = req.user?.user_id;
+
+		if (!userId) {
+			return res.status(500).json({
+				isError: true,
+				message: "Internal Server Error",
+			});
+		}
+
 		const application = await Application.findByPk(id);
 
 		if (!application) {
@@ -65,10 +84,10 @@ export const updateApplication = async (req: Request, res: Response) => {
 				.json({ isError: true, message: "Application not found" });
 		}
 
-		application.businessId = businessId;
+		application.userId = userId;
 		application.heading = heading;
 		application.pricing = pricing;
-		application.start = start;
+		application.endDate = endDate;
 		application.experience = experience;
 		application.about = about;
 		application.languages = languages;
@@ -111,6 +130,34 @@ export const deleteApplication = async (req: Request, res: Response) => {
 	}
 };
 
+// Get user applications
+export const getUserApplications = async (req: Request, res: Response) => {
+	try {
+		const userId = req.user?.user_id;
+
+		if (!userId) {
+			return res.status(500).json({
+				isError: true,
+				message: "Internal Server Error",
+			});
+		}
+
+		const applications = await Application.findAll({
+			where: { userId },
+		});
+
+		if (!applications) {
+			return res
+				.status(404)
+				.json({ isError: true, message: "Application not found" });
+		}
+
+		res.status(200).json({ isError: false, applications });
+	} catch (error: any) {
+		res.status(500).json({ isError: true, message: error.message });
+	}
+};
+
 // Get Application by ID
 export const getApplication = async (req: Request, res: Response) => {
 	const { id } = req.params;
@@ -120,24 +167,15 @@ export const getApplication = async (req: Request, res: Response) => {
 			where: { id: id },
 			include: [
 				{
-					model: BusinessInfo,
-					as: "business",
+					model: User,
+					as: "user",
 					attributes: [
-						"id",
 						"user_id",
-						"about",
-						"location",
-						"website",
-						"social",
-						"industry",
-						"total_employee",
-					],
-					include: [
-						{
-							model: User,
-							as: "user",
-							attributes: ["user_id", "name", "verified", "logo"],
-						},
+						"name",
+						"email",
+						"type",
+						"verified",
+						"logo",
 					],
 				},
 			],
@@ -149,7 +187,19 @@ export const getApplication = async (req: Request, res: Response) => {
 				.json({ isError: true, message: "Application not found" });
 		}
 
-		res.status(200).json({ isError: false, application });
+		let details;
+
+		if (application.user.type === "creator") {
+			details = await CreatorInfo.findOne({
+				where: { user_id: application.userId },
+			});
+		} else {
+			details = await BusinessInfo.findOne({
+				where: { user_id: application.userId },
+			});
+		}
+
+		res.status(200).json({ isError: false, application, details });
 	} catch (error: any) {
 		res.status(500).json({ isError: true, message: error.message });
 	}
@@ -161,16 +211,9 @@ export const getAllApplications = async (req: Request, res: Response) => {
 		const applications = await Application.findAll({
 			include: [
 				{
-					model: BusinessInfo,
-					as: "business",
-					attributes: ["id", "user_id", "industry", "total_employee"],
-					include: [
-						{
-							model: User,
-							as: "user",
-							attributes: ["user_id", "name", "verified", "logo"],
-						},
-					],
+					model: User,
+					as: "user",
+					attributes: ["user_id", "name", "verified", "logo"],
 				},
 			],
 		});
