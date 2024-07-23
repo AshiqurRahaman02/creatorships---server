@@ -28,7 +28,10 @@ export const getUser = async (req: Request, res: Response) => {
 	const userId = req.params.id;
 
 	try {
-		const user = await User.findByPk(userId);
+		const user = await User.findOne({
+			where: { user_id: userId },
+			attributes: ["user_id", "name", "email","logo","type","verified"],
+		});
 
 		if (!user) {
 			return res
