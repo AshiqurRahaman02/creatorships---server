@@ -37,7 +37,10 @@ const jwtSecretKey = process.env.jwt_secret_key;
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.id;
     try {
-        const user = yield user_model_1.default.findByPk(userId);
+        const user = yield user_model_1.default.findOne({
+            where: { user_id: userId },
+            attributes: ["user_id", "name", "email", "logo", "type", "verified"],
+        });
         if (!user) {
             return res
                 .status(404)

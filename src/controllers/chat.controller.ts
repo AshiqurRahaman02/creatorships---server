@@ -6,67 +6,107 @@ import User from "../models/user.model";
 // Send Chat
 export const sendChat = async (req: Request, res: Response) => {
 	const { receiver_id, chat } = req.body;
-  
+
 	try {
-	  const sender_id = req.user?.user_id;
-  
-	  if (!sender_id) {
-		return res.status(500).json({
-		  isError: true,
-		  message: "Internal Server Error",
-		});
-	  }
-  
-	  // Check if a chat between the two users already exists
-	  let existingChat = await Chat.findOne({
-		where: {
-		  [Op.or]: [
-			{ sender_id: sender_id, receiver_id: receiver_id },
-			{ sender_id: receiver_id, receiver_id: sender_id }
-		  ]
+		const sender_id = req.user?.user_id;
+
+		if (!sender_id) {
+			return res.status(500).json({
+				isError: true,
+				message: "Internal Server Error",
+			});
 		}
-	  });
-  
-	  if (existingChat) {
-		// If chat exists, update it
-		const updatedChats = [...existingChat.chats, chat];
-  
-		const [updated] = await Chat.update(
-		  { chats: updatedChats },
-		  { where: { id: existingChat.id } }
-		);
-  
-		if (updated) {
-		  existingChat = await Chat.findByPk(existingChat.id);
-		  return res.status(200).json({
-			isError: false,
-			message: "Chat updated",
-			chat: existingChat,
-		  });
+
+		if (sender_id == receiver_id) {
+			return res.status(500).json({
+				isError: true,
+				message: "Sender and receiver can't be the same",
+			});
+		}
+
+		if (!chat.message) {
+			return res.status(500).json({
+				isError: true,
+				message: "Chat must include a message",
+			});
+		}
+
+		const user = await User.findOne({
+			where: { user_id: receiver_id },
+			attributes: ["user_id", "name", "email", "logo", "type", "verified"],
+		});
+
+		if (!user) {
+			return res
+				.status(404)
+				.json({ isError: true, message: "Receiver not found" });
+		}
+
+		chat.date = new Date();
+		chat.sender_id = sender_id;
+		chat.read = false;
+
+		// Check if a chat between the two users already exists
+		let existingChat = await Chat.findOne({
+			where: {
+				[Op.or]: [
+					{ sender_id: sender_id, receiver_id: receiver_id },
+					{ sender_id: receiver_id, receiver_id: sender_id },
+				],
+			},
+		});
+
+		if (existingChat) {
+			// If chat exists, update it
+			const updatedChats = [...existingChat.chats, chat];
+
+			const [updated] = await Chat.update(
+				{ chats: updatedChats },
+				{ where: { id: existingChat.id } }
+			);
+
+			if (!updated) {
+				return res.status(400).json({
+					isError: true,
+					message: "Failed to send chat",
+				});
+			}
+
+			// if (updated) {
+			// 	existingChat = await Chat.findByPk(existingChat.id);
+			// 	return res.status(200).json({
+			// 		isError: false,
+			// 		message: "Chat updated",
+			// 		chat: existingChat,
+			// 	});
+			// } else {
+			// 	return res.status(400).json({
+			// 		isError: true,
+			// 		message: "Failed to update chat",
+			// 	});
+			// }
 		} else {
-		  return res.status(400).json({
-			isError: true,
-			message: "Failed to update chat",
-		  });
+			// If chat does not exist, create a new one
+			const newChat = await Chat.create({
+				sender_id,
+				receiver_id,
+				chats: [chat],
+			});
+
+			// return res.status(201).json({
+			// 	isError: false,
+			// 	message: "Chat created",
+			// 	chat: newChat,
+			// });
 		}
-	  } else {
-		// If chat does not exist, create a new one
-		const newChat = await Chat.create({
-		  sender_id,
-		  receiver_id,
-		  chats: [chat],
-		});
-  
-		return res.status(201).json({
-		  isError: false,
-		  message: "Chat created",
-		  chat: newChat,
-		});
-	  }
+
+		const chats = findAllChats(sender_id);
+
+		res.status(200).json({ isError: false, chats });
 	} catch (error: any) {
-	  res.status(500).json({ isError: true, message: error.message });
+		res.status(500).json({ isError: true, message: error.message });
 	}
-  };
+};
 
 export const blockChat = async (req: Request, res: Response) => {
 	const { id } = req.params;
@@ -124,38 +164,41 @@ export const deleteChat = async (req: Request, res: Response) => {
 // Get All Chats for a User
 export const getAllChats = async (req: Request, res: Response) => {
 	try {
-	  const user_id = req.user?.user_id;
-  
-	  if (!user_id) {
-		return res.status(500).json({
-		  isError: true,
-		  message: "Internal Server Error",
-		});
-	  }
-  
-	  const chats = await Chat.findAll({
+		const user_id = req.user?.user_id;
+
+		if (!user_id) {
+			return res.status(500).json({
+				isError: true,
+				message: "Internal Server Error",
+			});
+		}
+
+		const chats = await findAllChats(user_id);
+
+		res.status(200).json({ isError: false, chats });
+	} catch (error: any) {
+		res.status(500).json({ isError: true, message: error.message });
+	}
+};
+
+const findAllChats = async (user_id: number) => {
+	let chats =  await Chat.findAll({
 		where: {
-		  [Op.or]: [
-			{ sender_id: user_id },
-			{ receiver_id: user_id }
-		  ]
+			[Op.or]: [{ sender_id: user_id }, { receiver_id: user_id }],
 		},
 		include: [
-		  {
-			model: User,
-			as: "sender",
-			attributes: ["user_id", "name", "email"],
-		  },
-		  {
-			model: User,
-			as: "receiver",
-			attributes: ["user_id", "name", "email"],
-		  },
+			{
+				model: User,
+				as: "sender",
+				attributes: ["user_id", "name", "logo", "type", "verified"],
+			},
+			{
+				model: User,
+				as: "receiver",
+				attributes: ["user_id", "name", "logo", "type", "verified"],
+			},
 		],
-	  });
-  
-	  res.status(200).json({ isError: false, chats });
-	} catch (error: any) {
-	  res.status(500).json({ isError: true, message: error.message });
-	}
-  };
+	});
+
+	return chats
+};

@@ -28,33 +28,62 @@ const sendChat = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 message: "Internal Server Error",
             });
         }
+        if (sender_id == receiver_id) {
+            return res.status(500).json({
+                isError: true,
+                message: "Sender and receiver can't be the same",
+            });
+        }
+        if (!chat.message) {
+            return res.status(500).json({
+                isError: true,
+                message: "Chat must include a message",
+            });
+        }
+        const user = yield user_model_1.default.findOne({
+            where: { user_id: receiver_id },
+            attributes: ["user_id", "name", "email", "logo", "type", "verified"],
+        });
+        if (!user) {
+            return res
+                .status(404)
+                .json({ isError: true, message: "Receiver not found" });
+        }
+        chat.date = new Date();
+        chat.sender_id = sender_id;
+        chat.read = false;
         // Check if a chat between the two users already exists
         let existingChat = yield chat_model_1.default.findOne({
             where: {
                 [sequelize_1.Op.or]: [
                     { sender_id: sender_id, receiver_id: receiver_id },
-                    { sender_id: receiver_id, receiver_id: sender_id }
-                ]
-            }
+                    { sender_id: receiver_id, receiver_id: sender_id },
+                ],
+            },
         });
         if (existingChat) {
             // If chat exists, update it
             const updatedChats = [...existingChat.chats, chat];
             const [updated] = yield chat_model_1.default.update({ chats: updatedChats }, { where: { id: existingChat.id } });
-            if (updated) {
-                existingChat = yield chat_model_1.default.findByPk(existingChat.id);
-                return res.status(200).json({
-                    isError: false,
-                    message: "Chat updated",
-                    chat: existingChat,
-                });
-            }
-            else {
+            if (!updated) {
                 return res.status(400).json({
                     isError: true,
-                    message: "Failed to update chat",
+                    message: "Failed to send chat",
                 });
             }
+            // if (updated) {
+            // 	existingChat = await Chat.findByPk(existingChat.id);
+            // 	return res.status(200).json({
+            // 		isError: false,
+            // 		message: "Chat updated",
+            // 		chat: existingChat,
+            // 	});
+            // } else {
+            // 	return res.status(400).json({
+            // 		isError: true,
+            // 		message: "Failed to update chat",
+            // 	});
+            // }
         }
         else {
             // If chat does not exist, create a new one
@@ -63,12 +92,14 @@ const sendChat = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 receiver_id,
                 chats: [chat],
             });
-            return res.status(201).json({
-                isError: false,
-                message: "Chat created",
-                chat: newChat,
-            });
+            // return res.status(201).json({
+            // 	isError: false,
+            // 	message: "Chat created",
+            // 	chat: newChat,
+            // });
         }
+        const chats = findAllChats(sender_id);
+        res.status(200).json({ isError: false, chats });
     }
     catch (error) {
         res.status(500).json({ isError: true, message: error.message });
@@ -132,26 +163,7 @@ const getAllChats = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 message: "Internal Server Error",
             });
         }
-        const chats = yield chat_model_1.default.findAll({
-            where: {
-                [sequelize_1.Op.or]: [
-                    { sender_id: user_id },
-                    { receiver_id: user_id }
-                ]
-            },
-            include: [
-                {
-                    model: user_model_1.default,
-                    as: "sender",
-                    attributes: ["user_id", "name", "email"],
-                },
-                {
-                    model: user_model_1.default,
-                    as: "receiver",
-                    attributes: ["user_id", "name", "email"],
-                },
-            ],
-        });
+        const chats = yield findAllChats(user_id);
         res.status(200).json({ isError: false, chats });
     }
     catch (error) {
@@ -159,3 +171,23 @@ const getAllChats = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getAllChats = getAllChats;
+const findAllChats = (user_id) => __awaiter(void 0, void 0, void 0, function* () {
+    let chats = yield chat_model_1.default.findAll({
+        where: {
+            [sequelize_1.Op.or]: [{ sender_id: user_id }, { receiver_id: user_id }],
+        },
+        include: [
+            {
+                model: user_model_1.default,
+                as: "sender",
+                attributes: ["user_id", "name", "logo", "type", "verified"],
+            },
+            {
+                model: user_model_1.default,
+                as: "receiver",
+                attributes: ["user_id", "name", "logo", "type", "verified"],
+            },
+        ],
+    });
+    return chats;
+});
