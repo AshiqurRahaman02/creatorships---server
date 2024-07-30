@@ -18,59 +18,79 @@ const creator_model_1 = __importDefault(require("../models/creator.model"));
 const user_model_1 = __importDefault(require("../models/user.model"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-// Create a new creator
+/**
+ * Creates a new creator profile.
+ *
+ * @param {Request} req - The request object containing the creator information in `req.body`.
+ * @param {string} [req.body.bio] - The bio of the creator. Optional.
+ * @param {string} [req.body.phoneNo] - The phone number of the creator. Optional.
+ * @param {string} [req.body.location] - The location of the creator. Optional.
+ * @param {string[]} [req.body.languages] - The languages spoken by the creator. Optional.
+ * @param {string} [req.body.website] - The website of the creator. Optional.
+ * @param {object} [req.body.social] - The social media links of the creator. Optional.
+ * @param {Response} res - The response object to send the result.
+ * @returns {void} - Sends a JSON response with the result of the creator creation operation.
+ */
 const createCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { bio, phoneNo, location, languages, website, social } = req.body;
     try {
         const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
         if (!userId) {
-            return res.status(500).json({
+            res.status(500).json({
                 isError: true,
                 message: "Internal Server Error",
             });
+            return;
         }
         if (typeof userId !== "number") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
-                message: "Bio must be a string",
+                message: "User ID must be a number",
             });
+            return;
         }
         if (bio && typeof bio !== "string") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Bio must be a string",
             });
+            return;
         }
         if (phoneNo && typeof phoneNo !== "string") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Phone No must be a string",
             });
+            return;
         }
         if (location && typeof location !== "string") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Location must be a string",
             });
+            return;
         }
-        if (languages && typeof languages !== "object") {
-            return res.status(201).json({
+        if (languages && !Array.isArray(languages)) {
+            res.status(201).json({
                 isError: true,
                 message: "Languages must be an array of strings",
             });
+            return;
         }
         if (website && typeof website !== "string") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Website must be a string",
             });
+            return;
         }
         if (social && typeof social !== "object") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Social must be an object",
             });
+            return;
         }
         // Create new creator info
         const newCreatorInfo = yield creator_model_1.default.create({
@@ -82,67 +102,94 @@ const createCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             website,
             social,
         });
-        res.status(201).json({ isError: false, creator: newCreatorInfo,
-            message: "Creator created successfully", });
+        res.status(201).json({
+            isError: false,
+            creator: newCreatorInfo,
+            message: "Creator created successfully",
+        });
     }
     catch (error) {
-        res.status(500).json({ isError: true, message: error.message });
+        res.status(500).json({
+            isError: true,
+            message: error.message,
+        });
     }
 });
 exports.createCreator = createCreator;
-// Update creator information
+/**
+ * Updates the creator profile.
+ *
+ * @param {Request} req - The request object containing the creator information in `req.body`.
+ * @param {string} [req.body.bio] - The bio of the creator. Optional.
+ * @param {string} [req.body.phoneNo] - The phone number of the creator. Optional.
+ * @param {string} [req.body.location] - The location of the creator. Optional.
+ * @param {string[]} [req.body.languages] - The languages spoken by the creator. Optional.
+ * @param {string} [req.body.website] - The website of the creator. Optional.
+ * @param {object} [req.body.social] - The social media links of the creator. Optional.
+ * @param {Response} res - The response object to send the result.
+ * @returns {void} - Sends a JSON response with the result of the creator update operation.
+ */
 const updateCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { bio, phoneNo, location, languages, website, social } = req.body;
     try {
         const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
         if (!userId) {
-            return res.status(500).json({
+            res.status(500).json({
                 isError: true,
                 message: "Internal Server Error",
             });
+            return;
         }
         const creator = yield creator_model_1.default.findOne({ where: { user_id: userId } });
         if (!creator) {
-            return res
-                .status(404)
-                .json({ isError: true, message: "Creator not found" });
+            res.status(404).json({
+                isError: true,
+                message: "Creator not found",
+            });
+            return;
         }
         if (bio && typeof bio !== "string") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Bio must be a string",
             });
+            return;
         }
         if (phoneNo && typeof phoneNo !== "string") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Phone No must be a string",
             });
+            return;
         }
         if (location && typeof location !== "string") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Location must be a string",
             });
+            return;
         }
-        if (languages && typeof languages !== "object") {
-            return res.status(201).json({
+        if (languages && !Array.isArray(languages)) {
+            res.status(201).json({
                 isError: true,
                 message: "Languages must be an array of strings",
             });
+            return;
         }
         if (website && typeof website !== "string") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Website must be a string",
             });
+            return;
         }
         if (social && typeof social !== "object") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Social must be an object",
             });
+            return;
         }
         // Update the creator info
         creator.bio = bio;
@@ -159,20 +206,38 @@ const updateCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(500).json({ isError: true, message: error.message });
+        res.status(500).json({
+            isError: true,
+            message: error.message,
+        });
     }
 });
 exports.updateCreator = updateCreator;
-// Delete the creator information
+/**
+ * Deletes the creator profile.
+ *
+ * @param {Request} req - The request object containing user information.
+ * @param {Response} res - The response object to send the result.
+ * @returns {void} - Sends a JSON response with the result of the creator deletion operation.
+ */
 const deleteCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
+        if (!userId) {
+            res.status(500).json({
+                isError: true,
+                message: "Internal Server Error",
+            });
+            return;
+        }
         const creator = yield creator_model_1.default.findOne({ where: { user_id: userId } });
         if (!creator) {
-            return res
-                .status(404)
-                .json({ isError: true, message: "Creator not found" });
+            res.status(404).json({
+                isError: true,
+                message: "Creator not found",
+            });
+            return;
         }
         yield creator.destroy();
         res.status(200).json({
@@ -181,11 +246,20 @@ const deleteCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(500).json({ isError: true, message: error.message });
+        res.status(500).json({
+            isError: true,
+            message: error.message,
+        });
     }
 });
 exports.deleteCreator = deleteCreator;
-// Get one creator information
+/**
+ * Get a single creator's information.
+ *
+ * @param {Request} req - The request object containing user parameters.
+ * @param {Response} res - The response object to send the result.
+ * @returns {void} - Sends a JSON response with the creator's information.
+ */
 const getCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     try {
@@ -200,18 +274,32 @@ const getCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             ],
         });
         if (!creator) {
-            return res
-                .status(404)
-                .json({ isError: true, message: "Creator not found" });
+            res.status(404).json({
+                isError: true,
+                message: "Creator not found",
+            });
+            return;
         }
-        res.status(200).json({ isError: false, creator });
+        res.status(200).json({
+            isError: false,
+            creator,
+        });
     }
     catch (error) {
-        res.status(500).json({ isError: true, message: error.message });
+        res.status(500).json({
+            isError: true,
+            message: error.message,
+        });
     }
 });
 exports.getCreator = getCreator;
-// Get all creator information
+/**
+ * Get all creators' information.
+ *
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object to send the result.
+ * @returns {void} - Sends a JSON response with all creators' information.
+ */
 const getAllCreators = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const creators = yield creator_model_1.default.findAll({
@@ -223,14 +311,27 @@ const getAllCreators = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 },
             ],
         });
-        res.status(200).json({ isError: false, creators });
+        res.status(200).json({
+            isError: false,
+            creators,
+        });
     }
     catch (error) {
-        res.status(500).json({ isError: true, message: error.message });
+        res.status(500).json({
+            isError: true,
+            message: error.message,
+        });
     }
 });
 exports.getAllCreators = getAllCreators;
-// Get creator information from search
+/**
+ * Search for creators based on query parameters.
+ *
+ * @param {Request} req - The request object containing search query parameters.
+ * @param {string} [req.params.query] - The query string to search for creator. Required in the request.
+ * @param {Response} res - The response object to send the result.
+ * @returns {void} - Sends a JSON response with the search results.
+ */
 const searchCreators = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { query } = req.params;
     try {
@@ -249,10 +350,16 @@ const searchCreators = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 },
             ],
         });
-        res.status(200).json({ isError: false, creators });
+        res.status(200).json({
+            isError: false,
+            creators,
+        });
     }
     catch (error) {
-        res.status(500).json({ isError: true, message: error.message });
+        res.status(500).json({
+            isError: true,
+            message: error.message,
+        });
     }
 });
 exports.searchCreators = searchCreators;

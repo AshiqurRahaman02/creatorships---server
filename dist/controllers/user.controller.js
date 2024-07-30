@@ -34,6 +34,12 @@ const YOUR_DOMAIN = process.env.public_domain || "http://localhost:3000";
 // 	}
 //   }
 const jwtSecretKey = process.env.jwt_secret_key;
+/**
+ * Retrieves a user by ID.
+ * @param {Request} req The request object.
+ * @param {Response} res The response object.
+ * @returns {Promise<void>} A promise that resolves to sending a response with the user data or an error message.
+ */
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.id;
     try {
@@ -42,9 +48,8 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             attributes: ["user_id", "name", "email", "logo", "type", "verified"],
         });
         if (!user) {
-            return res
-                .status(404)
-                .json({ isError: true, message: "User not found" });
+            res.status(404).json({ isError: true, message: "User not found" });
+            return;
         }
         res.status(200).json({ isError: false, user });
     }
@@ -53,40 +58,51 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getUser = getUser;
+/**
+ * Registers a new user.
+ * @param {Request} req The request object containing user registration details.
+ * @param {Response} res The response object to send the registration result.
+ * @returns {Promise<void>} A promise that resolves to sending a response with the registration result.
+ */
 const userRegister = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, name, type } = req.body;
     try {
         if (!name || typeof name !== "string") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Name is required and must be a string",
             });
+            return;
         }
         if (!email || typeof email !== "string") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Email is required and must be a string",
             });
+            return;
         }
         if (!password || typeof password !== "string") {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Password is required and must be a string",
             });
+            return;
         }
         if (!type || (type && type !== "creator" && type !== "business")) {
             console.log(type);
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Type should be creator or business",
             });
+            return;
         }
         let user = yield user_model_1.default.findOne({ where: { email } });
         if (user) {
-            return res.status(201).json({
+            res.status(201).json({
                 isError: true,
                 message: "Email already used in this website.",
             });
+            return;
         }
         const hash = yield bcrypt_1.default.hash(password, 5);
         const newUser = yield user_model_1.default.create({ email, password: hash, name, type });
@@ -102,14 +118,19 @@ const userRegister = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.userRegister = userRegister;
+/**
+ * Logs in a user.
+ * @param {Request} req The request object containing user login details.
+ * @param {Response} res The response object to send the login result.
+ * @returns {Promise<void>} A promise that resolves to sending a response with the login result.
+ */
 const userLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
         let user = yield user_model_1.default.findOne({ where: { email } });
         if (!user) {
-            return res
-                .status(404)
-                .json({ isError: true, message: "User not found" });
+            res.status(404).json({ isError: true, message: "User not found" });
+            return;
         }
         const match = yield bcrypt_1.default.compare(password, user.password);
         if (match) {
@@ -133,16 +154,23 @@ const userLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.userLogin = userLogin;
+/**
+ * Updates a user's logo.
+ * @param {Request} req The request object containing the new logo link.
+ * @param {Response} res The response object to send the update result.
+ * @returns {Promise<void>} A promise that resolves to sending a response with the update result.
+ */
 const updateUserLogo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { link } = req.body;
     try {
         const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
         if (!userId) {
-            return res.status(500).json({
+            res.status(500).json({
                 isError: true,
                 message: "Internal Server Error",
             });
+            return;
         }
         yield user_model_1.default.update({
             logo: link,
@@ -154,10 +182,11 @@ const updateUserLogo = (req, res) => __awaiter(void 0, void 0, void 0, function*
             where: { user_id: userId },
         });
         if (!updatedUser) {
-            return res.status(404).json({
+            res.status(404).json({
                 isError: true,
                 message: "User not found.",
             });
+            return;
         }
         // Send the response with the updated user
         res.status(200).json({
@@ -171,7 +200,12 @@ const updateUserLogo = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.updateUserLogo = updateUserLogo;
-// Create Checkout Session
+/**
+ * Creates a checkout session.
+ * @param {Request} req The request object containing the plan type and product ID.
+ * @param {Response} res The response object to send the session creation result.
+ * @returns {Promise<void>} A promise that resolves to sending a response with the session creation result.
+ */
 const createCheckoutSession = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { planType, productId } = req.body;
@@ -207,16 +241,23 @@ const createCheckoutSession = (req, res) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.createCheckoutSession = createCheckoutSession;
+/**
+ * Updates a user's subscription details.
+ * @param {Request} req The request object containing the session ID and plan type.
+ * @param {Response} res The response object to send the update result.
+ * @returns {Promise<void>} A promise that resolves to sending a response with the update result.
+ */
 const updateUserSubscription = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { session_id, plan_type } = req.body;
     try {
         const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.user_id;
         if (!userId) {
-            return res.status(500).json({
+            res.status(500).json({
                 isError: true,
                 message: "Internal Server Error",
             });
+            return;
         }
         const checkoutSession = yield stripe.checkout.sessions.retrieve(session_id);
         const stripeCustomerId = checkoutSession.customer;
@@ -224,10 +265,11 @@ const updateUserSubscription = (req, res) => __awaiter(void 0, void 0, void 0, f
         const subscriptionStatus = checkoutSession.status;
         const subscriptionPlan = plan_type;
         if (!stripeSubscriptionId) {
-            return res.status(400).json({
+            res.status(400).json({
                 isError: true,
                 message: "No subscription found in the session.",
             });
+            return;
         }
         yield user_model_1.default.update({
             stripeCustomerId,
@@ -242,10 +284,11 @@ const updateUserSubscription = (req, res) => __awaiter(void 0, void 0, void 0, f
             where: { user_id: userId },
         });
         if (!updatedUser) {
-            return res.status(404).json({
+            res.status(404).json({
                 isError: true,
                 message: "User not found.",
             });
+            return;
         }
         // Send the response with the updated user
         res.status(200).json({

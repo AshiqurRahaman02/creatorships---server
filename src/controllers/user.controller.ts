@@ -24,19 +24,24 @@ const YOUR_DOMAIN = process.env.public_domain || "http://localhost:3000";
 
 const jwtSecretKey: string = process.env.jwt_secret_key!;
 
-export const getUser = async (req: Request, res: Response) => {
+/**
+ * Retrieves a user by ID.
+ * @param {Request} req The request object.
+ * @param {Response} res The response object.
+ * @returns {Promise<void>} A promise that resolves to sending a response with the user data or an error message.
+ */
+export const getUser = async (req: Request, res: Response): Promise<void> => {
 	const userId = req.params.id;
 
 	try {
 		const user = await User.findOne({
 			where: { user_id: userId },
-			attributes: ["user_id", "name", "email","logo","type","verified"],
+			attributes: ["user_id", "name", "email", "logo", "type", "verified"],
 		});
 
 		if (!user) {
-			return res
-				.status(404)
-				.json({ isError: true, message: "User not found" });
+			res.status(404).json({ isError: true, message: "User not found" });
+			return;
 		}
 
 		res.status(200).json({ isError: false, user });
@@ -45,41 +50,55 @@ export const getUser = async (req: Request, res: Response) => {
 	}
 };
 
-export const userRegister = async (req: Request, res: Response) => {
+/**
+ * Registers a new user.
+ * @param {Request} req The request object containing user registration details.
+ * @param {Response} res The response object to send the registration result.
+ * @returns {Promise<void>} A promise that resolves to sending a response with the registration result.
+ */
+export const userRegister = async (
+	req: Request,
+	res: Response
+): Promise<void> => {
 	const { email, password, name, type } = req.body;
 	try {
 		if (!name || typeof name !== "string") {
-			return res.status(201).json({
+			res.status(201).json({
 				isError: true,
 				message: "Name is required and must be a string",
 			});
+			return;
 		}
 		if (!email || typeof email !== "string") {
-			return res.status(201).json({
+			res.status(201).json({
 				isError: true,
 				message: "Email is required and must be a string",
 			});
+			return;
 		}
 		if (!password || typeof password !== "string") {
-			return res.status(201).json({
+			res.status(201).json({
 				isError: true,
 				message: "Password is required and must be a string",
 			});
+			return;
 		}
 		if (!type || (type && type !== "creator" && type !== "business")) {
 			console.log(type);
-			return res.status(201).json({
+			res.status(201).json({
 				isError: true,
 				message: "Type should be creator or business",
 			});
+			return;
 		}
 
 		let user = await User.findOne({ where: { email } });
 		if (user) {
-			return res.status(201).json({
+			res.status(201).json({
 				isError: true,
 				message: "Email already used in this website.",
 			});
+			return;
 		}
 		const hash = await bcrypt.hash(password, 5);
 		const newUser = await User.create({ email, password: hash, name, type });
@@ -94,14 +113,19 @@ export const userRegister = async (req: Request, res: Response) => {
 	}
 };
 
-export const userLogin = async (req: Request, res: Response) => {
+/**
+ * Logs in a user.
+ * @param {Request} req The request object containing user login details.
+ * @param {Response} res The response object to send the login result.
+ * @returns {Promise<void>} A promise that resolves to sending a response with the login result.
+ */
+export const userLogin = async (req: Request, res: Response): Promise<void> => {
 	const { email, password } = req.body;
 	try {
 		let user = await User.findOne({ where: { email } });
 		if (!user) {
-			return res
-				.status(404)
-				.json({ isError: true, message: "User not found" });
+			res.status(404).json({ isError: true, message: "User not found" });
+			return;
 		}
 		const match = await bcrypt.compare(password, user.password);
 		if (match) {
@@ -123,16 +147,26 @@ export const userLogin = async (req: Request, res: Response) => {
 	}
 };
 
-export const updateUserLogo = async (req: Request, res: Response) => {
+/**
+ * Updates a user's logo.
+ * @param {Request} req The request object containing the new logo link.
+ * @param {Response} res The response object to send the update result.
+ * @returns {Promise<void>} A promise that resolves to sending a response with the update result.
+ */
+export const updateUserLogo = async (
+	req: Request,
+	res: Response
+): Promise<void> => {
 	const { link } = req.body;
 	try {
 		const userId = req.user?.user_id;
 
 		if (!userId) {
-			return res.status(500).json({
+			res.status(500).json({
 				isError: true,
 				message: "Internal Server Error",
 			});
+			return;
 		}
 
 		await User.update(
@@ -150,10 +184,11 @@ export const updateUserLogo = async (req: Request, res: Response) => {
 		});
 
 		if (!updatedUser) {
-			return res.status(404).json({
+			res.status(404).json({
 				isError: true,
 				message: "User not found.",
 			});
+			return;
 		}
 
 		// Send the response with the updated user
@@ -167,8 +202,16 @@ export const updateUserLogo = async (req: Request, res: Response) => {
 	}
 };
 
-// Create Checkout Session
-export const createCheckoutSession = async (req: Request, res: Response) => {
+/**
+ * Creates a checkout session.
+ * @param {Request} req The request object containing the plan type and product ID.
+ * @param {Response} res The response object to send the session creation result.
+ * @returns {Promise<void>} A promise that resolves to sending a response with the session creation result.
+ */
+export const createCheckoutSession = async (
+	req: Request,
+	res: Response
+): Promise<void> => {
 	try {
 		const { planType, productId } = req.body;
 
@@ -204,16 +247,26 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
 	}
 };
 
-export const updateUserSubscription = async (req: Request, res: Response) => {
+/**
+ * Updates a user's subscription details.
+ * @param {Request} req The request object containing the session ID and plan type.
+ * @param {Response} res The response object to send the update result.
+ * @returns {Promise<void>} A promise that resolves to sending a response with the update result.
+ */
+export const updateUserSubscription = async (
+	req: Request,
+	res: Response
+): Promise<void> => {
 	const { session_id, plan_type } = req.body;
 	try {
 		const userId = req.user?.user_id;
 
 		if (!userId) {
-			return res.status(500).json({
+			res.status(500).json({
 				isError: true,
 				message: "Internal Server Error",
 			});
+			return;
 		}
 
 		const checkoutSession = await stripe.checkout.sessions.retrieve(
@@ -226,10 +279,11 @@ export const updateUserSubscription = async (req: Request, res: Response) => {
 		const subscriptionPlan = plan_type;
 
 		if (!stripeSubscriptionId) {
-			return res.status(400).json({
+			res.status(400).json({
 				isError: true,
 				message: "No subscription found in the session.",
 			});
+			return;
 		}
 
 		await User.update(
@@ -250,10 +304,11 @@ export const updateUserSubscription = async (req: Request, res: Response) => {
 		});
 
 		if (!updatedUser) {
-			return res.status(404).json({
+			res.status(404).json({
 				isError: true,
 				message: "User not found.",
 			});
+			return;
 		}
 
 		// Send the response with the updated user

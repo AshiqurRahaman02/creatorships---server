@@ -1,0 +1,16 @@
+
+connectionString=
+
+PORT= 
+
+cloudinary_cloudName= 
+cloudinary_apiKey= 
+cloudinary_apiSecret= 
+
+omni_password= 
+
+jwt_secret_key=
+
+stripe_secret_key=
+
+public_domain= 
