@@ -16,7 +16,20 @@ exports.searchBusiness = exports.getAllBusiness = exports.getBusiness = exports.
 const sequelize_1 = require("sequelize");
 const business_model_1 = __importDefault(require("../models/business.model"));
 const user_model_1 = __importDefault(require("../models/user.model"));
-// Create Business
+/**
+ * Creates a new business information entry.
+ *
+ * @param {Request} req - The request object containing business details in `req.body`.
+ * @param {number} [req.user.user_id] - The ID of the user creating the business. Required in the request.
+ * @param {string} [req.body.location] - The location of the business. Required in the request.
+ * @param {string} [req.body.about] - A description about the business. Required in the request.
+ * @param {string} [req.body.industry] - The industry the business belongs to. Required in the request.
+ * @param {number} [req.body.total_employee] - The total number of employees in the business. Required in the request.
+ * @param {string} [req.body.website] - The website URL of the business. Required in the request.
+ * @param {object[]} [req.body.social] - An array of social media links associated with the business. Optional.
+ * @param {Response} res - The response object to send the result.
+ * @returns {void} - Sends a JSON response with the result of the business creation operation.
+ */
 const createBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { location, about, industry, total_employee, website, social } = req.body;
@@ -29,37 +42,37 @@ const createBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function*
             });
         }
         if (!about || typeof about !== "string") {
-            return res.status(201).json({
+            return res.status(400).json({
                 isError: true,
                 message: "About is required and must be a string",
             });
         }
         if (!industry || typeof industry !== "string") {
-            return res.status(201).json({
+            return res.status(400).json({
                 isError: true,
-                message: "Industry No is required and must be a string",
+                message: "Industry is required and must be a string",
             });
         }
         if (!location || typeof location !== "string") {
-            return res.status(201).json({
+            return res.status(400).json({
                 isError: true,
                 message: "Location is required and must be a string",
             });
         }
-        if (!total_employee || typeof total_employee !== "number") {
-            return res.status(201).json({
+        if (typeof total_employee !== "number") {
+            return res.status(400).json({
                 isError: true,
-                message: "Total employee is required and must be a number",
+                message: "Total employee must be a number",
             });
         }
         if (!website || typeof website !== "string") {
-            return res.status(201).json({
+            return res.status(400).json({
                 isError: true,
                 message: "Website is required and must be a string",
             });
         }
-        if (social && typeof social !== "object") {
-            return res.status(201).json({
+        if (social && !Array.isArray(social)) {
+            return res.status(400).json({
                 isError: true,
                 message: "Social must be an array of objects",
             });
@@ -84,7 +97,20 @@ const createBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.createBusiness = createBusiness;
-// Update Business
+/**
+ * Updates an existing business information entry.
+ *
+ * @param {Request} req - The request object containing updated business details in `req.body`.
+ * @param {number} [req.user.user_id] - The ID of the user updating the business. Required in the request.
+ * @param {string} [req.body.location] - The location of the business. Required in the request.
+ * @param {string} [req.body.about] - A description about the business. Required in the request.
+ * @param {string} [req.body.industry] - The industry the business belongs to. Required in the request.
+ * @param {number} [req.body.total_employee] - The total number of employees in the business. Required in the request.
+ * @param {string} [req.body.website] - The website URL of the business. Required in the request.
+ * @param {object[]} [req.body.social] - An array of social media links associated with the business. Optional.
+ * @param {Response} res - The response object to send the result.
+ * @returns {void} - Sends a JSON response with the result of the business update operation.
+ */
 const updateBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { location, about, industry, total_employee, website, social } = req.body;
@@ -105,39 +131,39 @@ const updateBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 .json({ isError: true, message: "Business not found" });
         }
         if (!about || typeof about !== "string") {
-            return res.status(201).json({
+            return res.status(400).json({
                 isError: true,
                 message: "About is required and must be a string",
             });
         }
         if (!industry || typeof industry !== "string") {
-            return res.status(201).json({
+            return res.status(400).json({
                 isError: true,
-                message: "Industry No is required and must be a string",
+                message: "Industry is required and must be a string",
             });
         }
         if (!location || typeof location !== "string") {
-            return res.status(201).json({
+            return res.status(400).json({
                 isError: true,
                 message: "Location is required and must be a string",
             });
         }
-        if (!total_employee || typeof total_employee !== "number") {
-            return res.status(201).json({
+        if (typeof total_employee !== "number") {
+            return res.status(400).json({
                 isError: true,
-                message: "Total employee is required and must be a number",
+                message: "Total employee must be a number",
             });
         }
         if (!website || typeof website !== "string") {
-            return res.status(201).json({
+            return res.status(400).json({
                 isError: true,
                 message: "Website is required and must be a string",
             });
         }
-        if (social && typeof social !== "object") {
-            return res.status(201).json({
+        if (social && !Array.isArray(social)) {
+            return res.status(400).json({
                 isError: true,
-                message: "Social must be an object",
+                message: "Social must be an array of objects",
             });
         }
         businessInfo.location = location;
@@ -158,7 +184,15 @@ const updateBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.updateBusiness = updateBusiness;
-// Delete Business
+/**
+ * Deletes a business information entry.
+ *
+ * @param {Request} req - The request object containing the business ID in `req.params`.
+ * @param {number} [req.user.user_id] - The ID of the user requesting the deletion. Required in the request.
+ * @param {number} [req.params.id] - The ID of the business to be deleted. Required in the request.
+ * @param {Response} res - The response object to send the result.
+ * @returns {void} - Sends a JSON response with the result of the business deletion operation.
+ */
 const deleteBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { id } = req.params; // BusinessInfo ID
@@ -189,7 +223,14 @@ const deleteBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.deleteBusiness = deleteBusiness;
-// Get one business information
+/**
+ * Retrieves information of a specific business.
+ *
+ * @param {Request} req - The request object containing the business ID in `req.params`.
+ * @param {number} [req.params.userId] - The ID of the user whose business information is to be retrieved. Required in the request.
+ * @param {Response} res - The response object to send the result.
+ * @returns {void} - Sends a JSON response with the business information.
+ */
 const getBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     try {
@@ -215,7 +256,13 @@ const getBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getBusiness = getBusiness;
-// Get all businesses information
+/**
+ * Retrieves information of all businesses.
+ *
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object to send the result.
+ * @returns {void} - Sends a JSON response with the list of all businesses.
+ */
 const getAllBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const businesses = yield business_model_1.default.findAll({
@@ -234,7 +281,14 @@ const getAllBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getAllBusiness = getAllBusiness;
-// Search Businesses
+/**
+ * Searches for businesses based on a query string.
+ *
+ * @param {Request} req - The request object containing the search query in `req.params`.
+ * @param {string} [req.params.query] - The query string to search for businesses. Required in the request.
+ * @param {Response} res - The response object to send the result.
+ * @returns {void} - Sends a JSON response with the list of businesses that match the search query.
+ */
 const searchBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { query } = req.params;
     try {

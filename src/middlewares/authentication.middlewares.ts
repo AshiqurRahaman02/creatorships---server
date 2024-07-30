@@ -15,7 +15,14 @@ declare global {
 		}
 	}
 }
-
+/**
+ * Middleware function to verify the JWT token and attach the user to the request object.
+ *
+ * @param {Request} req - The request object containing the authorization token in `req.headers`.
+ * @param {Response} res - The response object used to send the result.
+ * @param {NextFunction} next - The next middleware function to be called if the token is valid.
+ * @returns {void} - Calls `next()` if the token is valid and user is found; otherwise, sends a JSON response with an error message.
+ */
 export const verifyToken = async (
 	req: Request,
 	res: Response,
@@ -33,7 +40,7 @@ export const verifyToken = async (
 		const decoded = jwt.verify(token, jwtSecretKey) as JwtPayload;
 		const { userId } = decoded;
 
-		console.log(Date())
+		console.log(Date());
 
 		// Check if the user exists
 		const user = await User.findByPk(userId);

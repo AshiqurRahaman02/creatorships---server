@@ -18,6 +18,14 @@ const user_model_1 = __importDefault(require("../models/user.model"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const jwtSecretKey = process.env.jwt_secret_key;
+/**
+ * Middleware function to verify the JWT token and attach the user to the request object.
+ *
+ * @param {Request} req - The request object containing the authorization token in `req.headers`.
+ * @param {Response} res - The response object used to send the result.
+ * @param {NextFunction} next - The next middleware function to be called if the token is valid.
+ * @returns {void} - Calls `next()` if the token is valid and user is found; otherwise, sends a JSON response with an error message.
+ */
 const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const token = (_a = req.header("Authorization")) === null || _a === void 0 ? void 0 : _a.split(" ")[0];
