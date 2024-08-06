@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Op } from "sequelize";
 import BusinessInfo from "../models/business.model";
 import User from "../models/user.model";
+import Application from "../models/application.model";
 
 /**
  * Creates a new business information entry.
@@ -247,7 +248,7 @@ export const getBusiness = async (req: Request, res: Response) => {
 	const { userId } = req.params;
 
 	try {
-		const businessInfo = await BusinessInfo.findOne({
+		const business = await BusinessInfo.findOne({
 			where: { user_id: userId },
 			include: [
 				{
@@ -258,13 +259,18 @@ export const getBusiness = async (req: Request, res: Response) => {
 			],
 		});
 
-		if (!businessInfo) {
+		if (!business) {
 			return res
 				.status(404)
 				.json({ isError: true, message: "Business not found" });
 		}
 
-		res.status(200).json({ isError: false, business: businessInfo });
+		const applications = await Application.findAll({
+			where: { userId },
+			attributes: ["heading", "pricing", "endDate", "languages"],
+		});
+
+		res.status(200).json({ isError: false, business, applications });
 	} catch (error: any) {
 		res.status(500).json({ isError: true, message: error.message });
 	}

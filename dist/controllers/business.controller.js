@@ -16,6 +16,7 @@ exports.searchBusiness = exports.getAllBusiness = exports.getBusiness = exports.
 const sequelize_1 = require("sequelize");
 const business_model_1 = __importDefault(require("../models/business.model"));
 const user_model_1 = __importDefault(require("../models/user.model"));
+const application_model_1 = __importDefault(require("../models/application.model"));
 /**
  * Creates a new business information entry.
  *
@@ -234,7 +235,7 @@ exports.deleteBusiness = deleteBusiness;
 const getBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     try {
-        const businessInfo = yield business_model_1.default.findOne({
+        const business = yield business_model_1.default.findOne({
             where: { user_id: userId },
             include: [
                 {
@@ -244,12 +245,22 @@ const getBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 },
             ],
         });
-        if (!businessInfo) {
+        if (!business) {
             return res
                 .status(404)
                 .json({ isError: true, message: "Business not found" });
         }
-        res.status(200).json({ isError: false, business: businessInfo });
+        const applications = yield application_model_1.default.findAll({
+            where: { userId },
+            attributes: [
+                "heading",
+                "pricing",
+                "endDate",
+                "experience",
+                "languages",
+            ],
+        });
+        res.status(200).json({ isError: false, business, applications });
     }
     catch (error) {
         res.status(500).json({ isError: true, message: error.message });

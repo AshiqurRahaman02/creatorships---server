@@ -17,6 +17,7 @@ const sequelize_1 = require("sequelize");
 const creator_model_1 = __importDefault(require("../models/creator.model"));
 const user_model_1 = __importDefault(require("../models/user.model"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const application_model_1 = __importDefault(require("../models/application.model"));
 dotenv_1.default.config();
 /**
  * Creates a new creator profile.
@@ -280,9 +281,20 @@ const getCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             });
             return;
         }
+        const applications = yield application_model_1.default.findAll({
+            where: { userId },
+            attributes: [
+                "heading",
+                "pricing",
+                "endDate",
+                "experience",
+                "languages",
+            ],
+        });
         res.status(200).json({
             isError: false,
             creator,
+            applications,
         });
     }
     catch (error) {
