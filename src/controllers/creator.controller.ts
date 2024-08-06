@@ -3,6 +3,7 @@ import { Op } from "sequelize";
 import CreatorInfo from "../models/creator.model";
 import User from "../models/user.model";
 import dotenv from "dotenv";
+import Application from "../models/application.model";
 
 dotenv.config();
 
@@ -305,9 +306,20 @@ export const getCreator = async (
 			return;
 		}
 
+		const applications = await Application.findAll({
+			where: { userId },
+			attributes: [
+				"heading",
+				"pricing",
+				"endDate",
+				"languages",
+			],
+		});
+
 		res.status(200).json({
 			isError: false,
 			creator,
+			applications,
 		});
 	} catch (error: any) {
 		res.status(500).json({
