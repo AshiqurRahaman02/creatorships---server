@@ -281,35 +281,30 @@ export const getAllApplications = async (req: Request, res: Response) => {
  * Searches for applications based on a query string.
  *
  * @param {Request} req - The request object containing the search query in `req.params`.
- * @param {string} [req.params.query] - The query string to search for applications. Required.
+ * @param {string} [req.query.query] - The query string to search for applications. Required.
  * @param {Response} res - The response object to send the result.
  * @returns {void} - Sends a JSON response with the list of applications that match the search query.
  */
 export const searchApplications = async (req: Request, res: Response) => {
-	const { query } = req.params;
+	const { query } = req.query;
 
 	try {
 		const applications = await Application.findAll({
+			where: {
+				[Op.or]: [
+					{ heading: { [Op.iLike]: `%${query}%` } },
+					{ about: { [Op.iLike]: `%${query}%` } },
+					{ benefits: { [Op.iLike]: `%${query}%` } },
+					{ '$user.name$': { [Op.iLike]: `%${query}%` } },
+				],
+			},
 			include: [
 				{
-					model: BusinessInfo,
-					as: "business",
-					attributes: ["id", "user_id", "industry", "total_employee"],
-					include: [
-						{
-							model: User,
-							as: "user",
-							attributes: ["user_id", "name", "verified", "logo"],
-							where: {
-								name: { [Op.iLike]: `%${query}%` },
-							},
-						},
-					],
+					model: User,
+					as: "user",
+					attributes: ["user_id", "name", "verified", "logo"],
 				},
 			],
-			where: {
-				[Op.or]: [{ heading: { [Op.iLike]: `%${query}%` } }],
-			},
 		});
 
 		res.status(200).json({ isError: false, applications });

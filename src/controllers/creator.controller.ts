@@ -308,12 +308,7 @@ export const getCreator = async (
 
 		const applications = await Application.findAll({
 			where: { userId },
-			attributes: [
-				"heading",
-				"pricing",
-				"endDate",
-				"languages",
-			],
+			attributes: ["id", "heading", "pricing", "endDate", "languages"],
 		});
 
 		res.status(200).json({
@@ -367,7 +362,7 @@ export const getAllCreators = async (
  * Search for creators based on query parameters.
  *
  * @param {Request} req - The request object containing search query parameters.
- * @param {string} [req.params.query] - The query string to search for creator. Required in the request.
+ * @param {string} [req.query.query] - The query string to search for creator. Required in the request.
  * @param {Response} res - The response object to send the result.
  * @returns {void} - Sends a JSON response with the search results.
  */
@@ -375,14 +370,14 @@ export const searchCreators = async (
 	req: Request,
 	res: Response
 ): Promise<void> => {
-	const { query } = req.params;
+	const { query } = req.query;
 
 	try {
 		const creators = await CreatorInfo.findAll({
 			where: {
 				[Op.or]: [
 					{ "$user.name$": { [Op.iLike]: `%${query}%` } },
-					{ location: { [Op.iLike]: `%${query}%` } },
+					{ bio: { [Op.iLike]: `%${query}%` } },
 				],
 			},
 			include: [

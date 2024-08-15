@@ -252,13 +252,7 @@ const getBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
         const applications = yield application_model_1.default.findAll({
             where: { userId },
-            attributes: [
-                "heading",
-                "pricing",
-                "endDate",
-                "experience",
-                "languages",
-            ],
+            attributes: ["id", "heading", "pricing", "endDate", "languages"],
         });
         res.status(200).json({ isError: false, business, applications });
     }
@@ -296,18 +290,17 @@ exports.getAllBusiness = getAllBusiness;
  * Searches for businesses based on a query string.
  *
  * @param {Request} req - The request object containing the search query in `req.params`.
- * @param {string} [req.params.query] - The query string to search for businesses. Required in the request.
+ * @param {string} [req.query.query] - The query string to search for businesses. Required in the request.
  * @param {Response} res - The response object to send the result.
  * @returns {void} - Sends a JSON response with the list of businesses that match the search query.
  */
 const searchBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { query } = req.params;
+    const { query } = req.query;
     try {
         const businesses = yield business_model_1.default.findAll({
             where: {
                 [sequelize_1.Op.or]: [
                     { "$user.name$": { [sequelize_1.Op.iLike]: `%${query}%` } },
-                    { location: { [sequelize_1.Op.iLike]: `%${query}%` } },
                     { about: { [sequelize_1.Op.iLike]: `%${query}%` } },
                     { industry: { [sequelize_1.Op.iLike]: `%${query}%` } },
                 ],
