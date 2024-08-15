@@ -10,7 +10,7 @@ applicationRouter.delete("/delete/:id",verifyToken, deleteApplication);
 
 applicationRouter.get("/get-user-applications",verifyToken, getUserApplications);
 applicationRouter.get("/get-application/:id", getApplication);
-applicationRouter.get("/get-all-application", getAllApplications);
-applicationRouter.get("/search-application", searchApplications);
+applicationRouter.get("/get-all-applications", getAllApplications);
+applicationRouter.get("/search-applications", searchApplications);
 
 export default applicationRouter;

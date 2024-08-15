@@ -267,7 +267,7 @@ export const getBusiness = async (req: Request, res: Response) => {
 
 		const applications = await Application.findAll({
 			where: { userId },
-			attributes: ["heading", "pricing", "endDate", "languages"],
+			attributes: ["id","heading", "pricing", "endDate", "languages"],
 		});
 
 		res.status(200).json({ isError: false, business, applications });
@@ -304,19 +304,18 @@ export const getAllBusiness = async (req: Request, res: Response) => {
  * Searches for businesses based on a query string.
  *
  * @param {Request} req - The request object containing the search query in `req.params`.
- * @param {string} [req.params.query] - The query string to search for businesses. Required in the request.
+ * @param {string} [req.query.query] - The query string to search for businesses. Required in the request.
  * @param {Response} res - The response object to send the result.
  * @returns {void} - Sends a JSON response with the list of businesses that match the search query.
  */
 export const searchBusiness = async (req: Request, res: Response) => {
-	const { query } = req.params;
+	const { query } = req.query;
 
 	try {
 		const businesses = await BusinessInfo.findAll({
 			where: {
 				[Op.or]: [
 					{ "$user.name$": { [Op.iLike]: `%${query}%` } },
-					{ location: { [Op.iLike]: `%${query}%` } },
 					{ about: { [Op.iLike]: `%${query}%` } },
 					{ industry: { [Op.iLike]: `%${query}%` } },
 				],

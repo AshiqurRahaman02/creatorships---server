@@ -283,13 +283,7 @@ const getCreator = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         const applications = yield application_model_1.default.findAll({
             where: { userId },
-            attributes: [
-                "heading",
-                "pricing",
-                "endDate",
-                "experience",
-                "languages",
-            ],
+            attributes: ["id", "heading", "pricing", "endDate", "languages"],
         });
         res.status(200).json({
             isError: false,
@@ -340,18 +334,18 @@ exports.getAllCreators = getAllCreators;
  * Search for creators based on query parameters.
  *
  * @param {Request} req - The request object containing search query parameters.
- * @param {string} [req.params.query] - The query string to search for creator. Required in the request.
+ * @param {string} [req.query.query] - The query string to search for creator. Required in the request.
  * @param {Response} res - The response object to send the result.
  * @returns {void} - Sends a JSON response with the search results.
  */
 const searchCreators = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { query } = req.params;
+    const { query } = req.query;
     try {
         const creators = yield creator_model_1.default.findAll({
             where: {
                 [sequelize_1.Op.or]: [
                     { "$user.name$": { [sequelize_1.Op.iLike]: `%${query}%` } },
-                    { location: { [sequelize_1.Op.iLike]: `%${query}%` } },
+                    { bio: { [sequelize_1.Op.iLike]: `%${query}%` } },
                 ],
             },
             include: [

@@ -9,6 +9,6 @@ applicationRouter.put("/update/:id", authentication_middlewares_1.verifyToken, a
 applicationRouter.delete("/delete/:id", authentication_middlewares_1.verifyToken, application_controller_1.deleteApplication);
 applicationRouter.get("/get-user-applications", authentication_middlewares_1.verifyToken, application_controller_1.getUserApplications);
 applicationRouter.get("/get-application/:id", application_controller_1.getApplication);
-applicationRouter.get("/get-all-application", application_controller_1.getAllApplications);
-applicationRouter.get("/search-application", application_controller_1.searchApplications);
+applicationRouter.get("/get-all-applications", application_controller_1.getAllApplications);
+applicationRouter.get("/search-applications", application_controller_1.searchApplications);
 exports.default = applicationRouter;

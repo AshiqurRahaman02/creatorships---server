@@ -261,34 +261,29 @@ exports.getAllApplications = getAllApplications;
  * Searches for applications based on a query string.
  *
  * @param {Request} req - The request object containing the search query in `req.params`.
- * @param {string} [req.params.query] - The query string to search for applications. Required.
+ * @param {string} [req.query.query] - The query string to search for applications. Required.
  * @param {Response} res - The response object to send the result.
  * @returns {void} - Sends a JSON response with the list of applications that match the search query.
  */
 const searchApplications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { query } = req.params;
+    const { query } = req.query;
     try {
         const applications = yield application_model_1.default.findAll({
+            where: {
+                [sequelize_1.Op.or]: [
+                    { heading: { [sequelize_1.Op.iLike]: `%${query}%` } },
+                    { about: { [sequelize_1.Op.iLike]: `%${query}%` } },
+                    { benefits: { [sequelize_1.Op.iLike]: `%${query}%` } },
+                    { '$user.name$': { [sequelize_1.Op.iLike]: `%${query}%` } },
+                ],
+            },
             include: [
                 {
-                    model: business_model_1.default,
-                    as: "business",
-                    attributes: ["id", "user_id", "industry", "total_employee"],
-                    include: [
-                        {
-                            model: user_model_1.default,
-                            as: "user",
-                            attributes: ["user_id", "name", "verified", "logo"],
-                            where: {
-                                name: { [sequelize_1.Op.iLike]: `%${query}%` },
-                            },
-                        },
-                    ],
+                    model: user_model_1.default,
+                    as: "user",
+                    attributes: ["user_id", "name", "verified", "logo"],
                 },
             ],
-            where: {
-                [sequelize_1.Op.or]: [{ heading: { [sequelize_1.Op.iLike]: `%${query}%` } }],
-            },
         });
         res.status(200).json({ isError: false, applications });
     }
