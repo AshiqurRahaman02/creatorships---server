@@ -31,14 +31,6 @@ export const sendMail = (req: Request, res: Response): void => {
 		return;
 	}
 
-	if (!text || typeof text !== "string") {
-		res.status(400).json({
-			isError: true,
-			message: "Email text body is required and must be a string",
-		});
-		return;
-	}
-
 	if (!html || typeof html !== "string") {
 		res.status(400).json({
 			isError: true,
