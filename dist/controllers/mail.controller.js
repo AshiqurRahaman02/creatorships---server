@@ -14,7 +14,7 @@ const mail_config_1 = require("../config/mail.config");
  * @returns {void} - Sends a JSON response with the result of the email sending operation.
  */
 const sendMail = (req, res) => {
-    const { to, subject, text, html } = req.body;
+    let { to, subject, text, html } = req.body;
     if (!to || typeof to !== "string") {
         res.status(400).json({
             isError: true,
@@ -36,6 +36,7 @@ const sendMail = (req, res) => {
         });
         return;
     }
+    text = "";
     // Set up email options
     const mailOptions = {
         from: "omniplex.vercel@gmail.com",
