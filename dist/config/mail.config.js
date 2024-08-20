@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
 exports.transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: "omniplex.vercel@gmail.com",
-        pass: process.env.omni_password,
+        user: "creatorships02@gmail.com",
+        pass: process.env.email_key_password,
     },
 });

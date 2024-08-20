@@ -14,7 +14,7 @@ const mail_config_1 = require("../config/mail.config");
  * @returns {void} - Sends a JSON response with the result of the email sending operation.
  */
 const sendMail = (req, res) => {
-    let { to, subject, text, html } = req.body;
+    const { to, subject, text, html } = req.body;
     if (!to || typeof to !== "string") {
         res.status(400).json({
             isError: true,
@@ -29,6 +29,13 @@ const sendMail = (req, res) => {
         });
         return;
     }
+    if (!text || typeof text !== "string") {
+        res.status(400).json({
+            isError: true,
+            message: "Email text body is required and must be a string",
+        });
+        return;
+    }
     if (!html || typeof html !== "string") {
         res.status(400).json({
             isError: true,
@@ -36,7 +43,6 @@ const sendMail = (req, res) => {
         });
         return;
     }
-    text = "";
     // Set up email options
     const mailOptions = {
         from: "omniplex.vercel@gmail.com",
