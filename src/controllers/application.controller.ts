@@ -266,7 +266,7 @@ export const getAllApplications = async (req: Request, res: Response) => {
 				{
 					model: User,
 					as: "user",
-					attributes: ["user_id", "name", "verified", "logo"],
+					attributes: ["user_id", "name", "type","verified", "logo"],
 				},
 			],
 		});
@@ -302,7 +302,7 @@ export const searchApplications = async (req: Request, res: Response) => {
 				{
 					model: User,
 					as: "user",
-					attributes: ["user_id", "name", "verified", "logo"],
+					attributes: ["user_id", "name","type", "verified", "logo"],
 				},
 			],
 		});
