@@ -246,7 +246,7 @@ const getAllApplications = (req, res) => __awaiter(void 0, void 0, void 0, funct
                 {
                     model: user_model_1.default,
                     as: "user",
-                    attributes: ["user_id", "name", "verified", "logo"],
+                    attributes: ["user_id", "name", "type", "verified", "logo"],
                 },
             ],
         });
@@ -281,7 +281,7 @@ const searchApplications = (req, res) => __awaiter(void 0, void 0, void 0, funct
                 {
                     model: user_model_1.default,
                     as: "user",
-                    attributes: ["user_id", "name", "verified", "logo"],
+                    attributes: ["user_id", "name", "type", "verified", "logo"],
                 },
             ],
         });

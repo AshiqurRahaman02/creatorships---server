@@ -8,4 +8,5 @@ const mail_controller_1 = require("../controllers/mail.controller");
 const mailRouter = express_1.default.Router();
 // Send mail
 mailRouter.post("/send-mail", mail_controller_1.sendMail);
+mailRouter.post("/send-bulk-mail", mail_controller_1.sendBulkEmail);
 exports.default = mailRouter;

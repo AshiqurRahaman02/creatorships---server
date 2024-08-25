@@ -1,0 +1,859 @@
+[
+	{
+		"person": {
+			"data": [
+				"Jade Wigmore",
+				"Category Marketing Manager",
+				"Marketing",
+				"Manager"
+			],
+			"links": [
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/in/jade-wigmore-27313750"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Jade Wigmore"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/public/Jade Wigmore"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Jade+Wigmore"
+				}
+			]
+		},
+		"company": {
+			"data": ["The Rank Group Plc.", "rank.com", "Gambling & Casinos"],
+			"links": [
+				{
+					"linkText": "rank.com",
+					"linkHref": "http://rank.com"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/company/30063"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=The Rank Group Plc."
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/search/top/?q=The Rank Group Plc."
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=The+Rank+Group+Plc."
+				}
+			]
+		},
+		"information": {
+			"data": ["jade.wigmore@rank.com", "+44.1628504000", "+44.1628504000"],
+			"links": [
+				{
+					"linkText": "jade.wigmore@rank.com",
+					"linkHref": "mailto:jade.wigmore@rank.com"
+				},
+				{
+					"linkText": "+44.1628504000",
+					"linkHref": "tel:+44.1628504000"
+				},
+				{
+					"linkText": "+44.1628504000",
+					"linkHref": "tel:+44.1628504000"
+				}
+			]
+		}
+	},
+	{
+		"person": {
+			"data": [
+				"Twinkle Bhatnagar",
+				"Customer Relationship Management Specialist",
+				"Sales",
+				"Manager"
+			],
+			"links": [
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/in/ACwAADmP5iQBO0aByvd-iVFCaz2NSeH7xnm1o0w"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Twinkle Bhatnagar"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/public/Twinkle Bhatnagar"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Twinkle+Bhatnagar"
+				}
+			]
+		},
+		"company": {
+			"data": ["IGaming", "igaming.mk", "Gambling Facilities and Casinos"],
+			"links": [
+				{
+					"linkText": "igaming.mk",
+					"linkHref": "http://igaming.mk"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/company/85635264"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=IGaming"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/search/top/?q=IGaming"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=IGaming"
+				}
+			]
+		},
+		"information": {
+			"data": ["Add Email", "Add Phone"],
+			"links": []
+		}
+	},
+	{
+		"person": {
+			"data": ["Richard Marsh", "Head of Copy", "Marketing", "Director"],
+			"links": [
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/in/richard-as-marsh"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Richard Marsh"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/public/Richard Marsh"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Richard+Marsh"
+				}
+			]
+		},
+		"company": {
+			"data": ["The Rank Group Plc.", "rank.com", "Gambling & Casinos"],
+			"links": [
+				{
+					"linkText": "rank.com",
+					"linkHref": "http://rank.com"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/company/30063"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=The Rank Group Plc."
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/search/top/?q=The Rank Group Plc."
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=The+Rank+Group+Plc."
+				}
+			]
+		},
+		"information": {
+			"data": [
+				"richard.marsh@rank.com",
+				"richard_marsh@rank.com",
+				"+44.1628504000",
+				"+44.1628504000"
+			],
+			"links": [
+				{
+					"linkText": "richard.marsh@rank.com",
+					"linkHref": "mailto:richard.marsh@rank.com"
+				},
+				{
+					"linkText": "richard_marsh@rank.com",
+					"linkHref": "mailto:richard_marsh@rank.com"
+				},
+				{
+					"linkText": "+44.1628504000",
+					"linkHref": "tel:+44.1628504000"
+				},
+				{
+					"linkText": "+44.1628504000",
+					"linkHref": "tel:+44.1628504000"
+				}
+			]
+		}
+	},
+	{
+		"person": {
+			"data": [
+				"Vishnu Chaudhary",
+				"Influencer Marketing Manager",
+				"Marketing",
+				"Manager"
+			],
+			"links": [
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/in/vishnu-chaudhary-2b4312279"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Vishnu Chaudhary"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/public/Vishnu Chaudhary"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Vishnu+Chaudhary"
+				}
+			]
+		},
+		"company": {
+			"data": ["Mostbet", "mostbet.com", "Gambling & Casinos"],
+			"links": [
+				{
+					"linkText": "mostbet.com",
+					"linkHref": "http://mostbet.com"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/company/83018409"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Mostbet"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/search/top/?q=Mostbet"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Mostbet"
+				}
+			]
+		},
+		"information": {
+			"data": ["vishnu@mostbet.com", "Add Phone"],
+			"links": [
+				{
+					"linkText": "vishnu@mostbet.com",
+					"linkHref": "mailto:vishnu@mostbet.com"
+				}
+			]
+		}
+	},
+	{
+		"person": {
+			"data": [
+				"Manjot Singh",
+				"Director of Sales Marketing",
+				"Sales",
+				"Director"
+			],
+			"links": [
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/in/manjot-singh-mba-pgdm-8181a728"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Manjot Singh"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/public/Manjot Singh"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Manjot+Singh"
+				}
+			]
+		},
+		"company": {
+			"data": ["Cloud9Game", "cloud9game.com", "Gambling & Casinos"],
+			"links": [
+				{
+					"linkText": "cloud9game.com",
+					"linkHref": "http://cloud9game.com"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/company/73876605"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Cloud9Game"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/search/top/?q=Cloud9Game"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Cloud9Game"
+				}
+			]
+		},
+		"information": {
+			"data": ["manjot@cloud9game.com", "manjot2306@gmail.com", "Add Phone"],
+			"links": [
+				{
+					"linkText": "manjot@cloud9game.com",
+					"linkHref": "mailto:manjot@cloud9game.com"
+				},
+				{
+					"linkText": "manjot2306@gmail.com",
+					"linkHref": "mailto:manjot2306@gmail.com"
+				}
+			]
+		}
+	},
+	{
+		"person": {
+			"data": [
+				"Kashika Saxena",
+				"Senior Manager - Marketing Analytics",
+				"Marketing",
+				"Manager"
+			],
+			"links": [
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/in/kashikasaxena"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Kashika Saxena"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/public/Kashika Saxena"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Kashika+Saxena"
+				}
+			]
+		},
+		"company": {
+			"data": ["The Rank Group Plc.", "rank.com", "Gambling & Casinos"],
+			"links": [
+				{
+					"linkText": "rank.com",
+					"linkHref": "http://rank.com"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/company/30063"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=The Rank Group Plc."
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/search/top/?q=The Rank Group Plc."
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=The+Rank+Group+Plc."
+				}
+			]
+		},
+		"information": {
+			"data": [
+				"kashika.saxena@rank.com",
+				"kashikasaxena@gmail.com",
+				"+44.1628504000",
+				"+44 7551 574425"
+			],
+			"links": [
+				{
+					"linkText": "kashika.saxena@rank.com",
+					"linkHref": "mailto:kashika.saxena@rank.com"
+				},
+				{
+					"linkText": "kashikasaxena@gmail.com",
+					"linkHref": "mailto:kashikasaxena@gmail.com"
+				},
+				{
+					"linkText": "+44.1628504000",
+					"linkHref": "tel:+44.1628504000"
+				},
+				{
+					"linkText": "+44 7551 574425",
+					"linkHref": "tel:+44 7551 574425"
+				}
+			]
+		}
+	},
+	{
+		"person": {
+			"data": ["Tom Orton", "Director of Content", "Marketing", "Director"],
+			"links": [
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/in/tom-orton"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Tom Orton"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/public/Tom Orton"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Tom+Orton"
+				}
+			]
+		},
+		"company": {
+			"data": ["The Rank Group Plc.", "rank.com", "Gambling & Casinos"],
+			"links": [
+				{
+					"linkText": "rank.com",
+					"linkHref": "http://rank.com"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/company/30063"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=The Rank Group Plc."
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/search/top/?q=The Rank Group Plc."
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=The+Rank+Group+Plc."
+				}
+			]
+		},
+		"information": {
+			"data": [
+				"tom.orton@rank.com",
+				"tom.orton1@gmail.com",
+				"+44.1628504000"
+			],
+			"links": [
+				{
+					"linkText": "tom.orton@rank.com",
+					"linkHref": "mailto:tom.orton@rank.com"
+				},
+				{
+					"linkText": "tom.orton1@gmail.com",
+					"linkHref": "mailto:tom.orton1@gmail.com"
+				},
+				{
+					"linkText": "+44.1628504000",
+					"linkHref": "tel:+44.1628504000"
+				}
+			]
+		}
+	},
+	{
+		"person": {
+			"data": [
+				"Jay F",
+				"Assistants Sales & Marketing Manager",
+				"Sales",
+				"Manager"
+			],
+			"links": [
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/in/ACwAACWptgMBrmh8boUjfaU4--yE4Nxd9e5c1m0"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Jay F"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/public/Jay F"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Jay+F"
+				}
+			]
+		},
+		"company": {
+			"data": [
+				"Big Daddy Chain of Casinos",
+				"bigdaddy.in",
+				"Gambling & Casinos"
+			],
+			"links": [
+				{
+					"linkText": "bigdaddy.in",
+					"linkHref": "http://bigdaddy.in"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/company/13373803"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Big Daddy Chain of Casinos"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/search/top/?q=Big Daddy Chain of Casinos"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Big+Daddy+Chain+of+Casinos"
+				}
+			]
+		},
+		"information": {
+			"data": ["jay@bigdaddy.in", "919818330322"],
+			"links": [
+				{
+					"linkText": "jay@bigdaddy.in",
+					"linkHref": "mailto:jay@bigdaddy.in"
+				},
+				{
+					"linkText": "919818330322",
+					"linkHref": "tel:919818330322"
+				}
+			]
+		}
+	},
+	{
+		"person": {
+			"data": ["Sakshi Pal", "Head of Marketing", "Marketing", "Director"],
+			"links": [
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/in/sakshi-pal-55b436285"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Sakshi Pal"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/public/Sakshi Pal"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Sakshi+Pal"
+				}
+			]
+		},
+		"company": {
+			"data": ["Betwinner", "betwinner.com", "Gambling & Casinos"],
+			"links": [
+				{
+					"linkText": "betwinner.com",
+					"linkHref": "http://betwinner.com"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/company/154664"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Betwinner"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/search/top/?q=Betwinner"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Betwinner"
+				}
+			]
+		},
+		"information": {
+			"data": ["Add Email", "Add Phone"],
+			"links": []
+		}
+	},
+	{
+		"person": {
+			"data": [
+				"Harikesh Kuttiparambil",
+				"Supervisor Game Art",
+				"Marketing",
+				"Manager"
+			],
+			"links": [
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/in/harikesh-kuttiparambil-73b2a011a"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Harikesh Kuttiparambil"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/public/Harikesh Kuttiparambil"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Harikesh+Kuttiparambil"
+				}
+			]
+		},
+		"company": {
+			"data": [
+				"Light & Wonder",
+				"lnw.com",
+				"Gambling Facilities and Casinos"
+			],
+			"links": [
+				{
+					"linkText": "lnw.com",
+					"linkHref": "http://lnw.com"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/company/79153265"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Light & Wonder"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/search/top/?q=Light & Wonder"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Light+&+Wonder"
+				}
+			]
+		},
+		"information": {
+			"data": ["hkuttiparambil@lnw.com", "Add Phone"],
+			"links": [
+				{
+					"linkText": "hkuttiparambil@lnw.com",
+					"linkHref": "mailto:hkuttiparambil@lnw.com"
+				}
+			]
+		}
+	},
+	{
+		"person": {
+			"data": [
+				"Sweta Roy",
+				"Digital & Social Media Lead",
+				"Marketing",
+				"Director"
+			],
+			"links": [
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/in/sweta-roy-98910117"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Sweta Roy"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/public/Sweta Roy"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Sweta+Roy"
+				}
+			]
+		},
+		"company": {
+			"data": ["Star Sports", "starsports.bet", "Gambling & Casinos"],
+			"links": [
+				{
+					"linkText": "starsports.bet",
+					"linkHref": "http://starsports.bet"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/company/6468382"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Star Sports"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/search/top/?q=Star Sports"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Star+Sports"
+				}
+			]
+		},
+		"information": {
+			"data": ["sweta.roy@startv.com", "08000 521 321"],
+			"links": [
+				{
+					"linkText": "sweta.roy@startv.com",
+					"linkHref": "mailto:sweta.roy@startv.com"
+				},
+				{
+					"linkText": "08000 521 321",
+					"linkHref": "tel:08000 521 321"
+				}
+			]
+		}
+	},
+	{
+		"person": {
+			"data": [
+				"Antush M",
+				"Business Development Manager",
+				"Sales",
+				"Manager"
+			],
+			"links": [
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/in/antush-m-ab0865269"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Antush M"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/public/Antush M"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Antush+M"
+				}
+			]
+		},
+		"company": {
+			"data": [
+				"ACE Interactive",
+				"aceinteractive.net",
+				"Gambling & Casinos"
+			],
+			"links": [
+				{
+					"linkText": "aceinteractive.net",
+					"linkHref": "http://aceinteractive.net"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/company/11012"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=ACE Interactive"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/search/top/?q=ACE Interactive"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=ACE+Interactive"
+				}
+			]
+		},
+		"information": {
+			"data": ["Add Email", "Add Phone"],
+			"links": []
+		}
+	},
+	{
+		"person": {
+			"data": ["Paul Webb", "Marketing Manager", "Marketing", "Manager"],
+			"links": [
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/in/ACwAAA-U5WwBBGarVQyi_jJmykKdlpqWX0YTxx8"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=Paul Webb"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/public/Paul Webb"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=Paul+Webb"
+				}
+			]
+		},
+		"company": {
+			"data": ["The Rank Group Plc.", "rank.com", "Gambling & Casinos"],
+			"links": [
+				{
+					"linkText": "rank.com",
+					"linkHref": "http://rank.com"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.linkedin.com/company/30063"
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://twitter.com/search?q=The Rank Group Plc."
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.facebook.com/search/top/?q=The Rank Group Plc."
+				},
+				{
+					"linkText": "",
+					"linkHref": "https://www.google.com/search?q=The+Rank+Group+Plc."
+				}
+			]
+		},
+		"information": {
+			"data": ["paul.webb@rank.com", "+44.1628504000", "+44.1628504000"],
+			"links": [
+				{
+					"linkText": "paul.webb@rank.com",
+					"linkHref": "mailto:paul.webb@rank.com"
+				},
+				{
+					"linkText": "+44.1628504000",
+					"linkHref": "tel:+44.1628504000"
+				},
+				{
+					"linkText": "+44.1628504000",
+					"linkHref": "tel:+44.1628504000"
+				}
+			]
+		}
+	}
+]
